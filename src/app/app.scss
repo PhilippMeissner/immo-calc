@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing-lg) var(--spacing);
+}
+
+header {
+  text-align: center;
+  margin-bottom: var(--spacing-xl);
+
+  h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: var(--color-text-light);
+  }
+}
+
+main {
+  margin-bottom: var(--spacing-xl);
+}
+
+footer {
+  text-align: center;
+  padding: var(--spacing-lg) 0;
+  border-top: 1px solid var(--color-border);
+
+  p {
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+  }
+}

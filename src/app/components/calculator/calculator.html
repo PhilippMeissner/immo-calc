@@ -1,0 +1,32 @@
+<div class="calculator-layout">
+  <div class="input-column">
+    <app-cost-input
+      [bundeslaender]="bundeslaender"
+      [selectedBundesland]="selectedBundesland()"
+      [purchasePrice]="purchasePrice()"
+      [costRates]="costRates()"
+      (purchasePriceChange)="onPurchasePriceChange($event)"
+      (bundeslandChange)="onBundeslandChange($event)"
+      (rateChange)="onRateChange($event)"
+      (toggleChange)="onToggleChange($event)"
+    />
+
+    <app-mortgage
+      [equity]="equity()"
+      [interestRate]="interestRate()"
+      [repaymentRate]="repaymentRate()"
+      [fixedPeriodYears]="fixedPeriodYears()"
+      [loanAmount]="loanAmount()"
+      [totalCostsPlusPrice]="result()?.totalPurchasePrice ?? 0"
+      [mortgageResult]="mortgageResult()"
+      (equityChange)="onEquityChange($event)"
+      (interestRateChange)="onInterestRateChange($event)"
+      (repaymentRateChange)="onRepaymentRateChange($event)"
+      (fixedPeriodYearsChange)="onFixedPeriodYearsChange($event)"
+    />
+  </div>
+
+  <div class="result-column">
+    <app-cost-result [result]="result()" />
+  </div>
+</div>

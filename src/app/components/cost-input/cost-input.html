@@ -1,0 +1,57 @@
+<div class="card">
+  <h2>Eingaben</h2>
+
+  <div class="form-group">
+    <label for="purchasePrice">Kaufpreis (€)</label>
+    <input
+      id="purchasePrice"
+      type="text"
+      inputmode="numeric"
+      [value]="displayPrice"
+      (input)="onPriceInput($event)"
+      (focus)="onPriceFocus()"
+      (blur)="onPriceBlur()"
+      placeholder="z.B. 350.000"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="bundesland">Bundesland</label>
+    <select id="bundesland" [value]="selectedBundesland().code" (change)="onBundeslandChange($any($event.target).value)">
+      @for (bl of bundeslaender(); track bl.code) {
+        <option [value]="bl.code">{{ bl.name }}</option>
+      }
+    </select>
+  </div>
+
+  <h3>Nebenkostensätze</h3>
+
+  @for (rate of costRates(); track rate.id) {
+    <div class="rate-row">
+      @if (rate.isOptional) {
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            [checked]="rate.isEnabled"
+            (change)="onToggleChange(rate.id, $event)"
+          />
+          {{ rate.label }}
+        </label>
+      } @else {
+        <label [for]="'rate-' + rate.id">{{ rate.label }}</label>
+      }
+      <div class="rate-input-wrapper">
+        <input
+          [id]="'rate-' + rate.id"
+          type="number"
+          step="0.01"
+          min="0"
+          [value]="rate.currentRate"
+          [disabled]="!rate.isEnabled"
+          (change)="onRateChange(rate.id, $event)"
+        />
+        <span class="unit">%</span>
+      </div>
+    </div>
+  }
+</div>

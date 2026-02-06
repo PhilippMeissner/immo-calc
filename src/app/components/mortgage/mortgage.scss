@@ -1,0 +1,109 @@
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow);
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing);
+  color: var(--color-primary);
+}
+
+.form-group {
+  margin-bottom: var(--spacing);
+
+  label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--color-input-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-input-bg);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-input-focus);
+      box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.15);
+    }
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--spacing);
+}
+
+.warning {
+  background: #fef9e7;
+  border: 1px solid #f9e79f;
+  border-radius: var(--radius-sm);
+  padding: var(--spacing);
+  font-size: 0.8125rem;
+  color: #7d6608;
+  margin-bottom: var(--spacing);
+}
+
+.loan-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--spacing) 0;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: var(--spacing);
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+  }
+
+  .value {
+    font-size: 1.125rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.results {
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--spacing);
+
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: var(--spacing-sm) 0;
+
+    .label {
+      font-size: 0.875rem;
+      color: var(--color-text-light);
+    }
+
+    .value {
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+
+      &.big {
+        font-size: 1.25rem;
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

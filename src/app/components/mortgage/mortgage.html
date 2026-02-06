@@ -1,0 +1,84 @@
+<div class="card">
+  <h2>Finanzierung</h2>
+
+  <div class="form-group">
+    <label for="equity">Eigenkapital (€)</label>
+    <input
+      id="equity"
+      type="text"
+      inputmode="numeric"
+      [value]="equityDisplay"
+      (input)="onEquityInput($event)"
+      (focus)="onEquityFocus()"
+      (blur)="onEquityBlur()"
+      placeholder="z.B. 80.000"
+    />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label for="interestRate">Sollzins (%)</label>
+      <input
+        id="interestRate"
+        type="number"
+        step="0.1"
+        min="0"
+        [value]="interestRate()"
+        (change)="onNumberChange('interest', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="repaymentRate">Tilgung (%)</label>
+      <input
+        id="repaymentRate"
+        type="number"
+        step="0.1"
+        min="0"
+        [value]="repaymentRate()"
+        (change)="onNumberChange('repayment', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="fixedPeriod">Zinsbindung (Jahre)</label>
+      <input
+        id="fixedPeriod"
+        type="number"
+        step="1"
+        min="1"
+        max="30"
+        [value]="fixedPeriodYears()"
+        (change)="onNumberChange('years', $event)"
+      />
+    </div>
+  </div>
+
+  @if (lowEquityWarning) {
+    <div class="warning">
+      Ihr Eigenkapital liegt unter 20 % der Gesamtkosten. Banken verlangen in der Regel mindestens 10–20 % Eigenkapitalanteil.
+    </div>
+  }
+
+  <div class="loan-info">
+    <span class="label">Darlehensbetrag</span>
+    <span class="value">{{ loanAmount() | number:'1.2-2':'de-DE' }} €</span>
+  </div>
+
+  @if (mortgageResult(); as m) {
+    @if (m.monthlyPayment > 0) {
+      <div class="results">
+        <div class="result-item">
+          <span class="label">Monatliche Rate</span>
+          <span class="value big">{{ m.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
+        </div>
+        <div class="result-item">
+          <span class="label">Zinsen in {{ fixedPeriodYears() }} Jahren</span>
+          <span class="value">{{ m.totalInterest | number:'1.2-2':'de-DE' }} €</span>
+        </div>
+        <div class="result-item">
+          <span class="label">Restschuld nach {{ fixedPeriodYears() }} Jahren</span>
+          <span class="value">{{ m.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
+        </div>
+      </div>
+    }
+  }
+</div>

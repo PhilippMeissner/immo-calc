@@ -1,0 +1,140 @@
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow);
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--spacing);
+  color: var(--color-primary);
+}
+
+.summary {
+  margin-bottom: var(--spacing-lg);
+
+  .total-price,
+  .side-costs {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+  }
+
+  .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+
+    &.highlight {
+      color: var(--color-primary);
+    }
+  }
+
+  .percentage {
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+    margin-left: 0.5rem;
+  }
+}
+
+.proportion-bar {
+  display: flex;
+  height: 1.25rem;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  margin-bottom: var(--spacing-sm);
+
+  .segment {
+    min-width: 2px;
+    transition: flex 0.3s ease;
+  }
+
+  .purchase-price {
+    background-color: var(--color-border);
+  }
+}
+
+.bar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm) var(--spacing);
+  margin-bottom: var(--spacing-lg);
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .legend-dot {
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 2px;
+    display: inline-block;
+
+    &.purchase-price-dot {
+      background-color: var(--color-border);
+    }
+  }
+}
+
+.breakdown {
+  width: 100%;
+  border-collapse: collapse;
+
+  td {
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .rate {
+    text-align: right;
+    color: var(--color-text-light);
+    padding-right: var(--spacing);
+    white-space: nowrap;
+  }
+
+  .amount {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .purchase-row {
+    td {
+      font-weight: 500;
+    }
+  }
+
+  .disabled td {
+    color: var(--color-text-light);
+    text-decoration: line-through;
+  }
+
+  .badge {
+    font-size: 0.6875rem;
+    color: var(--color-text-light);
+    background: var(--color-bg);
+    padding: 0.125rem 0.375rem;
+    border-radius: var(--radius-sm);
+    margin-left: 0.5rem;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  tfoot .total-row td {
+    border-bottom: none;
+    border-top: 2px solid var(--color-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    padding-top: 0.75rem;
+  }
+}
