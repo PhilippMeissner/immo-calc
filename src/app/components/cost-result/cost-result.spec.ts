@@ -45,12 +45,12 @@ describe('CostResult', () => {
 
   it('should display the total purchase price', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const totalText = compiled.querySelector('.total-price .value')?.textContent;
-    expect(totalText).toContain('331.710,00');
+    const heroValue = compiled.querySelector('.hero-value')?.textContent;
+    expect(heroValue).toContain('331.710,00');
   });
 
   it('should display all cost items in table', () => {
     const rows = fixture.nativeElement.querySelectorAll('.breakdown tbody tr');
-    expect(rows.length).toBe(5); // 1 purchase price + 4 cost items
+    expect(rows.length).toBe(6); // purchase price, total costs + 4 sub cost items
   });
 });

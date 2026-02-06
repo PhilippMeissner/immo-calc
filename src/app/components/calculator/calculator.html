@@ -16,14 +16,21 @@
       [interestRate]="interestRate()"
       [repaymentRate]="repaymentRate()"
       [fixedPeriodYears]="fixedPeriodYears()"
+      [specialRepaymentRate]="specialRepaymentRate()"
+      [specialRepaymentSurcharge]="specialRepaymentSurcharge()"
       [loanAmount]="loanAmount()"
       [totalCostsPlusPrice]="result()?.totalPurchasePrice ?? 0"
       [mortgageResult]="mortgageResult()"
+      [mortgageResultWithout]="mortgageResultWithout()"
       (equityChange)="onEquityChange($event)"
       (interestRateChange)="onInterestRateChange($event)"
       (repaymentRateChange)="onRepaymentRateChange($event)"
       (fixedPeriodYearsChange)="onFixedPeriodYearsChange($event)"
+      (specialRepaymentRateChange)="onSpecialRepaymentRateChange($event)"
+      (specialRepaymentSurchargeChange)="onSpecialRepaymentSurchargeChange($event)"
     />
+
+    <app-cost-hints />
   </div>
 
   <div class="result-column">

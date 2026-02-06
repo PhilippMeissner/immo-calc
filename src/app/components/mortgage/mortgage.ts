@@ -14,14 +14,19 @@ export class Mortgage {
   interestRate = input.required<number>();
   repaymentRate = input.required<number>();
   fixedPeriodYears = input.required<number>();
+  specialRepaymentRate = input.required<number>();
+  specialRepaymentSurcharge = input.required<number>();
   loanAmount = input.required<number>();
   totalCostsPlusPrice = input.required<number>();
   mortgageResult = input.required<MortgageResult | null>();
+  mortgageResultWithout = input.required<MortgageResult | null>();
 
   equityChange = output<number>();
   interestRateChange = output<number>();
   repaymentRateChange = output<number>();
   fixedPeriodYearsChange = output<number>();
+  specialRepaymentRateChange = output<number>();
+  specialRepaymentSurchargeChange = output<number>();
 
   equityDisplay = '';
 
@@ -29,6 +34,10 @@ export class Mortgage {
     const total = this.totalCostsPlusPrice();
     const eq = this.equity();
     return total > 0 && eq < total * 0.2;
+  }
+
+  get effectiveInterestRate(): number {
+    return this.interestRate() + this.specialRepaymentSurcharge();
   }
 
   ngOnInit(): void {
@@ -55,13 +64,15 @@ export class Mortgage {
     this.formatEquity();
   }
 
-  onNumberChange(field: 'interest' | 'repayment' | 'years', event: Event): void {
+  onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialRate' | 'specialSurcharge', event: Event): void {
     const value = parseFloat((event.target as HTMLInputElement).value);
     if (isNaN(value)) return;
     switch (field) {
       case 'interest': this.interestRateChange.emit(value); break;
       case 'repayment': this.repaymentRateChange.emit(value); break;
       case 'years': this.fixedPeriodYearsChange.emit(value); break;
+      case 'specialRate': this.specialRepaymentRateChange.emit(value); break;
+      case 'specialSurcharge': this.specialRepaymentSurchargeChange.emit(value); break;
     }
   }
 }

@@ -26,6 +26,7 @@ describe('MortgageService', () => {
     expect(result.totalInterest).toBe(0);
     expect(result.totalPayment).toBe(0);
     expect(result.remainingDebt).toBe(0);
+    expect(result.totalSpecialRepayment).toBe(0);
   });
 
   it('should return zeros for negative loan amount', () => {
@@ -69,5 +70,51 @@ describe('MortgageService', () => {
     const principalPaid = 300000 - result.remainingDebt;
 
     expect(result.totalInterest).toBeCloseTo(result.totalPayment - principalPaid, 0);
+  });
+
+  // Sondertilgung tests
+  describe('Sondertilgung (special repayment)', () => {
+    it('should reduce remaining debt faster with Sondertilgung', () => {
+      const without = service.calculate(300000, 3.5, 2, 10, 0, 0);
+      const withSpecial = service.calculate(300000, 3.5, 2, 10, 5, 0);
+
+      expect(withSpecial.remainingDebt).toBeLessThan(without.remainingDebt);
+      expect(withSpecial.totalSpecialRepayment).toBeGreaterThan(0);
+    });
+
+    it('should increase total interest when surcharge is applied', () => {
+      const noSurcharge = service.calculate(300000, 3.5, 2, 10, 5, 0);
+      const withSurcharge = service.calculate(300000, 3.5, 2, 10, 5, 0.2);
+
+      expect(withSurcharge.totalInterest).toBeGreaterThan(noSurcharge.totalInterest);
+      expect(withSurcharge.monthlyPayment).toBeGreaterThan(noSurcharge.monthlyPayment);
+    });
+
+    it('should produce same result with 0% Sondertilgung as without', () => {
+      const without = service.calculate(300000, 3.5, 2, 10);
+      const withZero = service.calculate(300000, 3.5, 2, 10, 0, 0);
+
+      expect(withZero.monthlyPayment).toBe(without.monthlyPayment);
+      expect(withZero.totalInterest).toBe(without.totalInterest);
+      expect(withZero.totalPayment).toBe(without.totalPayment);
+      expect(withZero.remainingDebt).toBe(without.remainingDebt);
+      expect(withZero.totalSpecialRepayment).toBe(0);
+    });
+
+    it('should not let special repayment exceed remaining debt', () => {
+      // Small loan with high special repayment rate to force cap
+      const result = service.calculate(50000, 0, 10, 10, 50, 0);
+
+      expect(result.remainingDebt).toBe(0);
+      expect(result.totalSpecialRepayment).toBeGreaterThan(0);
+    });
+
+    it('should track total special repayment amount', () => {
+      const result = service.calculate(300000, 3.5, 2, 10, 5, 0);
+
+      // 5% of 300k = 15k per year, for up to 10 years (if debt remains)
+      expect(result.totalSpecialRepayment).toBeGreaterThan(0);
+      expect(result.totalSpecialRepayment).toBeLessThanOrEqual(150000);
+    });
   });
 });

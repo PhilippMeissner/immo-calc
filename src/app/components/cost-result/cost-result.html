@@ -2,54 +2,45 @@
   <div class="card">
     <h2>Ergebnis</h2>
 
-    <div class="summary">
-      <div class="total-price">
-        <span class="label">Gesamtkosten</span>
-        <span class="value">{{ r.totalPurchasePrice | number:'1.2-2':'de-DE' }} €</span>
-      </div>
-      <div class="side-costs">
-        <span class="label">Kaufnebenkosten</span>
-        <span class="value highlight">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</span>
-        <span class="percentage">({{ costPercentage() | number:'1.1-1':'de-DE' }} % des Kaufpreises)</span>
-      </div>
+    <div class="hero">
+      <span class="hero-label">Gesamtkosten</span>
+      <span class="hero-value">{{ r.totalPurchasePrice | number:'1.2-2':'de-DE' }} €</span>
     </div>
 
-    <div class="proportion-bar">
-      <div
-        class="segment purchase-price"
-        [style.flex]="r.purchasePrice"
-        title="Kaufpreis"
-      ></div>
-      @for (seg of barSegments(); track seg.label) {
-        <div
-          class="segment"
-          [style.flex]="seg.percentage"
-          [style.background-color]="seg.color"
-          [title]="seg.label"
-        ></div>
-      }
-    </div>
-    <div class="bar-legend">
-      <span class="legend-item">
-        <span class="legend-dot purchase-price-dot"></span> Kaufpreis
-      </span>
-      @for (seg of barSegments(); track seg.label) {
-        <span class="legend-item">
-          <span class="legend-dot" [style.background-color]="seg.color"></span> {{ seg.label }}
-        </span>
-      }
+    <div class="stat-cards">
+      <div class="stat-card">
+        <span class="stat-label">Kaufpreis</span>
+        <span class="stat-value">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</span>
+      </div>
+      <div class="stat-card highlight">
+        <span class="stat-label">Kaufnebenkosten</span>
+        <span class="stat-value">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</span>
+        <span class="stat-sub">{{ costPercentage() | number:'1.2-2':'de-DE' }} % des Kaufpreises</span>
+      </div>
     </div>
 
     <table class="breakdown">
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th class="rate">% des Kaufpreises</th>
+          <th class="amount">Betrag</th>
+        </tr>
+      </thead>
       <tbody>
         <tr class="purchase-row">
           <td>Kaufpreis</td>
           <td class="rate"></td>
           <td class="amount">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</td>
         </tr>
-        @for (item of r.costItems; track item.label) {
+        <tr class="purchase-row">
+          <td>Kaufnebenkosten</td>
+          <td class="rate">{{ costPercentage() | number:'1.2-2':'de-DE' }} %</td>
+          <td class="amount">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</td>
+        </tr>
+        @for (item of costItemsWithShare(); track item.label) {
           <tr [class.disabled]="!item.isEnabled">
-            <td>
+            <td class="indent">
               {{ item.label }}
               @if (!item.isEnabled) {
                 <span class="badge">deaktiviert</span>

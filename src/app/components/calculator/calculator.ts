@@ -2,6 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { CostInput } from '../cost-input/cost-input';
 import { CostResult } from '../cost-result/cost-result';
 import { Mortgage } from '../mortgage/mortgage';
+import { CostHints } from '../cost-hints/cost-hints';
 import { CalculatorService } from '../../services/calculator.service';
 import { MortgageService } from '../../services/mortgage.service';
 import { BUNDESLAENDER, DEFAULT_GRUNDBUCH_RATE, DEFAULT_NOTAR_RATE } from '../../data/bundeslaender.data';
@@ -9,7 +10,7 @@ import { Bundesland, CostRateConfig } from '../../models/calculator.model';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CostInput, CostResult, Mortgage],
+  imports: [CostInput, CostResult, Mortgage, CostHints],
   templateUrl: './calculator.html',
   styleUrl: './calculator.scss',
 })
@@ -27,6 +28,8 @@ export class Calculator {
   readonly interestRate = signal(3.5);
   readonly repaymentRate = signal(2.0);
   readonly fixedPeriodYears = signal(10);
+  readonly specialRepaymentRate = signal(5);
+  readonly specialRepaymentSurcharge = signal(0);
 
   readonly result = computed(() => {
     const price = this.purchasePrice();
@@ -49,7 +52,21 @@ export class Calculator {
       loan,
       this.interestRate(),
       this.repaymentRate(),
-      this.fixedPeriodYears()
+      this.fixedPeriodYears(),
+      this.specialRepaymentRate(),
+      this.specialRepaymentSurcharge(),
+    );
+  });
+
+  readonly mortgageResultWithout = computed(() => {
+    const loan = this.loanAmount();
+    if (loan <= 0) return null;
+    if (this.specialRepaymentRate() === 0) return null;
+    return this.mortgageService.calculate(
+      loan,
+      this.interestRate(),
+      this.repaymentRate(),
+      this.fixedPeriodYears(),
     );
   });
 
@@ -97,6 +114,14 @@ export class Calculator {
 
   onFixedPeriodYearsChange(value: number): void {
     this.fixedPeriodYears.set(value);
+  }
+
+  onSpecialRepaymentRateChange(value: number): void {
+    this.specialRepaymentRate.set(value);
+  }
+
+  onSpecialRepaymentSurchargeChange(value: number): void {
+    this.specialRepaymentSurcharge.set(value);
   }
 
   private buildRates(bl: Bundesland): CostRateConfig[] {

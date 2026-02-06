@@ -52,6 +52,38 @@
     </div>
   </div>
 
+  <div class="form-row form-row--two">
+    <div class="form-group">
+      <label for="specialRepaymentRate">Sondertilgung (% p.a.)</label>
+      <input
+        id="specialRepaymentRate"
+        type="number"
+        step="1"
+        min="0"
+        max="100"
+        [value]="specialRepaymentRate()"
+        (change)="onNumberChange('specialRate', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="specialRepaymentSurcharge">Zinsaufschlag Sondertilgung (Pp.)</label>
+      <input
+        id="specialRepaymentSurcharge"
+        type="number"
+        step="0.05"
+        min="0"
+        [value]="specialRepaymentSurcharge()"
+        (change)="onNumberChange('specialSurcharge', $event)"
+      />
+    </div>
+  </div>
+
+  @if (specialRepaymentSurcharge() > 0) {
+    <div class="effective-rate">
+      Effektiver Sollzins: {{ interestRate() | number:'1.2-2':'de-DE' }} % + {{ specialRepaymentSurcharge() | number:'1.2-2':'de-DE' }} Pp. = <strong>{{ effectiveInterestRate | number:'1.2-2':'de-DE' }} %</strong>
+    </div>
+  }
+
   @if (lowEquityWarning) {
     <div class="warning">
       Ihr Eigenkapital liegt unter 20 % der Gesamtkosten. Banken verlangen in der Regel mindestens 10–20 % Eigenkapitalanteil.
@@ -74,10 +106,26 @@
           <span class="label">Zinsen in {{ fixedPeriodYears() }} Jahren</span>
           <span class="value">{{ m.totalInterest | number:'1.2-2':'de-DE' }} €</span>
         </div>
+        @if (m.totalSpecialRepayment > 0) {
+          <div class="result-item">
+            <span class="label">Sondertilgungen gesamt</span>
+            <span class="value">{{ m.totalSpecialRepayment | number:'1.2-2':'de-DE' }} €</span>
+          </div>
+        }
         <div class="result-item">
           <span class="label">Restschuld nach {{ fixedPeriodYears() }} Jahren</span>
           <span class="value">{{ m.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
         </div>
+
+        @if (mortgageResultWithout(); as mw) {
+          <div class="comparison">
+            <span class="comparison-label">Ohne Sondertilgung wäre die Restschuld</span>
+            <span class="comparison-value">{{ mw.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
+            <span class="comparison-diff">
+              ({{ mw.remainingDebt - m.remainingDebt | number:'1.0-0':'de-DE' }} € mehr)
+            </span>
+          </div>
+        }
       </div>
     }
   }

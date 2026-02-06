@@ -1,0 +1,35 @@
+<div class="card">
+  <button class="toggle" (click)="toggle()" [class.open]="isOpen">
+    <span class="toggle-icon">&#9656;</span>
+    <span>Weitere Kosten beachten</span>
+  </button>
+
+  @if (isOpen) {
+    <ul class="hints-list">
+      <li>
+        <strong>Grundsteuer</strong>
+        <span>Jährliche Steuer, variiert nach Gemeinde. Ab 2025 reformiert.</span>
+      </li>
+      <li>
+        <strong>Wohngebäudeversicherung</strong>
+        <span>Von Banken bei Finanzierung verlangt. Ca. 150–500 €/Jahr.</span>
+      </li>
+      <li>
+        <strong>Instandhaltungsrücklage</strong>
+        <span>Faustregel: ca. 1 €/m² Wohnfläche pro Monat.</span>
+      </li>
+      <li>
+        <strong>Hausgeld (bei ETW)</strong>
+        <span>Monatliche WEG-Verwaltungskosten, ca. 2,50–4,50 €/m².</span>
+      </li>
+      <li>
+        <strong>Modernisierungspflicht</strong>
+        <span>GEG: Heizungstausch/Dämmung ggf. innerhalb von 2 Jahren nach Kauf.</span>
+      </li>
+      <li>
+        <strong>Bereitstellungszinsen</strong>
+        <span>Bei Neubau: 0,25 %/Monat auf nicht abgerufene Darlehensteile nach zinsfreier Zeit.</span>
+      </li>
+    </ul>
+  }
+</div>

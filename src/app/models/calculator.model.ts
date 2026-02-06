@@ -42,4 +42,5 @@ export interface MortgageResult {
   totalInterest: number;
   totalPayment: number;
   remainingDebt: number;
+  totalSpecialRepayment: number;
 }

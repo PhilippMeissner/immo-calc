@@ -17,6 +17,7 @@ describe('Mortgage', () => {
     totalInterest: 89500,
     totalPayment: 165000,
     remainingDebt: 224500,
+    totalSpecialRepayment: 0,
   };
 
   beforeEach(async () => {
@@ -32,9 +33,12 @@ describe('Mortgage', () => {
     componentRef.setInput('interestRate', 3.5);
     componentRef.setInput('repaymentRate', 2.0);
     componentRef.setInput('fixedPeriodYears', 10);
+    componentRef.setInput('specialRepaymentRate', 5);
+    componentRef.setInput('specialRepaymentSurcharge', 0);
     componentRef.setInput('loanAmount', 300000);
     componentRef.setInput('totalCostsPlusPrice', 350000);
     componentRef.setInput('mortgageResult', testMortgageResult);
+    componentRef.setInput('mortgageResultWithout', null);
     await fixture.whenStable();
   });
 
