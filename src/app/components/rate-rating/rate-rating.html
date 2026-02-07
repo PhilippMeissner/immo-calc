@@ -1,0 +1,33 @@
+@if (rating(); as r) {
+  <div class="rating" [class]="'rating--' + r.level">
+    <div class="rating-header">
+      <span class="rating-badge">{{ r.label }}</span>
+      <span class="rating-range">Zinsbindung {{ r.marketRange.label }}</span>
+    </div>
+    <p class="rating-description">{{ r.description }}</p>
+    <div class="rating-scale">
+      <div class="scale-labels">
+        <span>Sehr gut</span>
+        <span>Gut</span>
+        <span>Durchschn.</span>
+        <span>Über Durchschn.</span>
+      </div>
+      <div class="scale-bar">
+        <div class="scale-segment excellent"></div>
+        <div class="scale-segment good"></div>
+        <div class="scale-segment average"></div>
+        <div class="scale-segment below_average"></div>
+        <div
+          class="scale-marker"
+          [style.left]="markerPosition + '%'"
+        ></div>
+      </div>
+      <div class="scale-values">
+        <span>&le; {{ r.marketRange.excellent | number:'1.1-1':'de-DE' }} %</span>
+        <span>&le; {{ r.marketRange.good | number:'1.1-1':'de-DE' }} %</span>
+        <span>&le; {{ r.marketRange.average | number:'1.1-1':'de-DE' }} %</span>
+        <span>&gt; {{ r.marketRange.average | number:'1.1-1':'de-DE' }} %</span>
+      </div>
+    </div>
+  </div>
+}

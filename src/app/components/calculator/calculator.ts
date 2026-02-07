@@ -5,6 +5,7 @@ import { Mortgage } from '../mortgage/mortgage';
 import { CostHints } from '../cost-hints/cost-hints';
 import { ScenarioCompare } from '../scenario-compare/scenario-compare';
 import { AmortizationTable } from '../amortization-table/amortization-table';
+import { RateRating } from '../rate-rating/rate-rating';
 import { CalculatorService } from '../../services/calculator.service';
 import { MortgageService } from '../../services/mortgage.service';
 import { ScenarioService } from '../../services/scenario.service';
@@ -13,7 +14,7 @@ import { Bundesland, CostRateConfig } from '../../models/calculator.model';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CostInput, CostResult, Mortgage, CostHints, ScenarioCompare, AmortizationTable],
+  imports: [CostInput, CostResult, Mortgage, CostHints, ScenarioCompare, AmortizationTable, RateRating],
   templateUrl: './calculator.html',
   styleUrl: './calculator.scss',
 })
