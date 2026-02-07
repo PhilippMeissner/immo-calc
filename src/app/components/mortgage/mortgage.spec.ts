@@ -18,6 +18,7 @@ describe('Mortgage', () => {
     totalPayment: 165000,
     remainingDebt: 224500,
     totalSpecialRepayment: 0,
+    totalTermMonths: 360,
     schedule: [
       { year: 1, beginningBalance: 300000, interest: 10500, principal: 6000, specialRepayment: 0, endingBalance: 294000 },
       { year: 2, beginningBalance: 294000, interest: 10290, principal: 6210, specialRepayment: 0, endingBalance: 287790 },

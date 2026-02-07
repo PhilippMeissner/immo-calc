@@ -12,7 +12,7 @@ export class MortgageService {
     specialRepaymentSurcharge: number = 0,
   ): MortgageResult {
     if (loanAmount <= 0 || interestRate < 0 || repaymentRate <= 0 || fixedPeriodYears <= 0) {
-      return { monthlyPayment: 0, totalInterest: 0, totalPayment: 0, remainingDebt: 0, totalSpecialRepayment: 0, schedule: [] };
+      return { monthlyPayment: 0, totalInterest: 0, totalPayment: 0, remainingDebt: 0, totalSpecialRepayment: 0, totalTermMonths: 0, schedule: [] };
     }
 
     const effectiveInterestRate = interestRate + specialRepaymentSurcharge;
@@ -73,12 +73,34 @@ export class MortgageService {
       }
     }
 
+    // Project total term: continue with same conditions until debt is fully repaid
+    let projectedDebt = remainingDebt;
+    let totalTermMonths = totalMonths;
+    const maxMonths = 100 * 12; // safety cap at 100 years
+    while (projectedDebt > 0 && totalTermMonths < maxMonths) {
+      const interest = projectedDebt * monthlyInterestRate;
+      const principal = monthlyPayment - interest;
+      if (principal <= 0) break; // interest exceeds payment, loan can never be repaid
+      projectedDebt -= principal;
+      totalTermMonths++;
+
+      if (specialRepaymentRate > 0 && totalTermMonths % 12 === 0) {
+        projectedDebt -= Math.min(annualSpecialRepayment, Math.max(projectedDebt, 0));
+      }
+    }
+    if (projectedDebt <= 0) {
+      // loan was already repaid during or before the fixed period
+    } else if (projectedDebt > 0 && totalTermMonths >= maxMonths) {
+      totalTermMonths = 0; // signal: not repayable
+    }
+
     return {
       monthlyPayment: Math.round(monthlyPayment * 100) / 100,
       totalInterest: Math.round(totalInterest * 100) / 100,
       totalPayment: Math.round(totalPayment * 100) / 100,
       remainingDebt: Math.round(remainingDebt * 100) / 100,
       totalSpecialRepayment: Math.round(totalSpecialRepayment * 100) / 100,
+      totalTermMonths,
       schedule,
     };
   }

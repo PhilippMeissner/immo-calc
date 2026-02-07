@@ -52,5 +52,6 @@ export interface MortgageResult {
   totalPayment: number;
   remainingDebt: number;
   totalSpecialRepayment: number;
+  totalTermMonths: number;
   schedule: AnnuityScheduleEntry[];
 }

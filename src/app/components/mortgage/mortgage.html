@@ -130,6 +130,12 @@
           <span class="label">Restschuld nach {{ fixedPeriodYears() }} Jahren</span>
           <span class="value">{{ m.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
         </div>
+        @if (m.remainingDebt > 0 && m.totalTermMonths > 0) {
+          <div class="result-item">
+            <span class="label">Gesamtlaufzeit bei gleichen Konditionen</span>
+            <span class="value">{{ (m.totalTermMonths - m.totalTermMonths % 12) / 12 }} Jahre {{ m.totalTermMonths % 12 }} Monate</span>
+          </div>
+        }
 
         @if (mortgageResultWithout(); as mw) {
           <div class="comparison">
