@@ -44,3 +44,28 @@ export interface MortgageResult {
   remainingDebt: number;
   totalSpecialRepayment: number;
 }
+
+export interface SavedScenario {
+  id: string;
+  name: string;
+  savedAt: number;
+  inputs: {
+    purchasePrice: number;
+    bundeslandCode: string;
+    equity: number;
+    interestRate: number;
+    repaymentRate: number;
+    fixedPeriodYears: number;
+    specialRepaymentRate: number;
+    specialRepaymentSurcharge: number;
+  };
+  result: {
+    totalCosts: number;
+    totalPurchasePrice: number;
+    loanAmount: number;
+    monthlyPayment: number;
+    totalInterest: number;
+    remainingDebt: number;
+    totalSpecialRepayment: number;
+  };
+}

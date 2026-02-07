@@ -135,6 +135,10 @@
           <span class="value">{{ m.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
         </div>
 
+        <div class="result-item">
+          <button class="save-btn" (click)="onSaveScenario()">Szenario speichern</button>
+        </div>
+
         @if (mortgageResultWithout(); as mw) {
           <div class="comparison">
             <span class="comparison-label">Ohne Sondertilgung wäre die Restschuld</span>

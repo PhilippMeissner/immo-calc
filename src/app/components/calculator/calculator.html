@@ -28,9 +28,15 @@
       (fixedPeriodYearsChange)="onFixedPeriodYearsChange($event)"
       (specialRepaymentRateChange)="onSpecialRepaymentRateChange($event)"
       (specialRepaymentSurchargeChange)="onSpecialRepaymentSurchargeChange($event)"
+      (saveScenario)="onSaveScenario()"
     />
 
     <app-cost-hints />
+
+    <app-scenario-compare
+      [scenarios]="scenarioService.scenarios()"
+      (removeScenario)="onRemoveScenario($event)"
+    />
   </div>
 
   <div class="result-column">

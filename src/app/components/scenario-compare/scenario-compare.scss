@@ -1,0 +1,98 @@
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow);
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    color: var(--color-primary);
+  }
+
+  .chevron {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    transition: transform 0.2s;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.scenarios-table-wrapper {
+  overflow-x: auto;
+  margin-top: var(--spacing);
+  -webkit-overflow-scrolling: touch;
+}
+
+.scenarios-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+
+  th {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 0.5rem 0.5rem;
+    border-bottom: 2px solid var(--color-border);
+    white-space: nowrap;
+
+    &.num {
+      text-align: right;
+    }
+  }
+
+  td {
+    padding: 0.5rem;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+
+    &.num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+  }
+}
+
+.scenario-name {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.scenario-date {
+  font-size: 0.6875rem;
+  color: var(--color-text-light);
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--color-text-light);
+  cursor: pointer;
+  font-size: 0.875rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s, background 0.2s;
+
+  &:hover {
+    color: var(--color-danger);
+    background: rgba(192, 57, 43, 0.08);
+  }
+}

@@ -1,22 +1,25 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CostInput } from '../cost-input/cost-input';
 import { CostResult } from '../cost-result/cost-result';
 import { Mortgage } from '../mortgage/mortgage';
 import { CostHints } from '../cost-hints/cost-hints';
+import { ScenarioCompare } from '../scenario-compare/scenario-compare';
 import { CalculatorService } from '../../services/calculator.service';
 import { MortgageService } from '../../services/mortgage.service';
+import { ScenarioService } from '../../services/scenario.service';
 import { BUNDESLAENDER, DEFAULT_GRUNDBUCH_RATE, DEFAULT_NOTAR_RATE } from '../../data/bundeslaender.data';
 import { Bundesland, CostRateConfig } from '../../models/calculator.model';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CostInput, CostResult, Mortgage, CostHints],
+  imports: [CostInput, CostResult, Mortgage, CostHints, ScenarioCompare],
   templateUrl: './calculator.html',
   styleUrl: './calculator.scss',
 })
 export class Calculator {
   private readonly calculatorService = new CalculatorService();
   private readonly mortgageService = new MortgageService();
+  readonly scenarioService = inject(ScenarioService);
 
   readonly bundeslaender = BUNDESLAENDER;
   readonly selectedBundesland = signal<Bundesland>(BUNDESLAENDER[0]);
@@ -122,6 +125,40 @@ export class Calculator {
 
   onSpecialRepaymentSurchargeChange(value: number): void {
     this.specialRepaymentSurcharge.set(value);
+  }
+
+  onSaveScenario(): void {
+    const r = this.result();
+    const m = this.mortgageResult();
+    if (!r || !m) return;
+
+    const count = this.scenarioService.scenarios().length + 1;
+    this.scenarioService.save({
+      name: `Szenario ${count}`,
+      inputs: {
+        purchasePrice: this.purchasePrice(),
+        bundeslandCode: this.selectedBundesland().code,
+        equity: this.equity(),
+        interestRate: this.interestRate(),
+        repaymentRate: this.repaymentRate(),
+        fixedPeriodYears: this.fixedPeriodYears(),
+        specialRepaymentRate: this.specialRepaymentRate(),
+        specialRepaymentSurcharge: this.specialRepaymentSurcharge(),
+      },
+      result: {
+        totalCosts: r.totalCosts,
+        totalPurchasePrice: r.totalPurchasePrice,
+        loanAmount: this.loanAmount(),
+        monthlyPayment: m.monthlyPayment,
+        totalInterest: m.totalInterest,
+        remainingDebt: m.remainingDebt,
+        totalSpecialRepayment: m.totalSpecialRepayment,
+      },
+    });
+  }
+
+  onRemoveScenario(id: string): void {
+    this.scenarioService.remove(id);
   }
 
   private buildRates(bl: Bundesland): CostRateConfig[] {

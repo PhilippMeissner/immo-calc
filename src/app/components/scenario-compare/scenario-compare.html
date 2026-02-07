@@ -1,0 +1,46 @@
+@if (scenarios().length > 0) {
+  <div class="card">
+    <button class="toggle-btn" (click)="toggle()">
+      <h2>Gespeicherte Szenarien ({{ scenarios().length }})</h2>
+      <span class="chevron" [class.open]="isOpen">&#9660;</span>
+    </button>
+
+    @if (isOpen) {
+      <div class="scenarios-table-wrapper">
+        <table class="scenarios-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th class="num">Kaufpreis</th>
+              <th class="num">Darlehensbetrag</th>
+              <th class="num">Sollzins</th>
+              <th class="num">Monatl. Rate</th>
+              <th class="num">Zinsen gesamt</th>
+              <th class="num">Restschuld</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (s of scenarios(); track s.id) {
+              <tr>
+                <td>
+                  <div class="scenario-name">{{ s.name }}</div>
+                  <div class="scenario-date">{{ formatDate(s.savedAt) }}</div>
+                </td>
+                <td class="num">{{ s.inputs.purchasePrice | number:'1.0-0':'de-DE' }} €</td>
+                <td class="num">{{ s.result.loanAmount | number:'1.0-0':'de-DE' }} €</td>
+                <td class="num">{{ s.inputs.interestRate | number:'1.2-2':'de-DE' }} %</td>
+                <td class="num">{{ s.result.monthlyPayment | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num">{{ s.result.totalInterest | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num">{{ s.result.remainingDebt | number:'1.2-2':'de-DE' }} €</td>
+                <td>
+                  <button class="remove-btn" (click)="onRemove(s.id)" title="Entfernen">✕</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+}

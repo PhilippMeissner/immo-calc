@@ -27,6 +27,7 @@ export class Mortgage {
   fixedPeriodYearsChange = output<number>();
   specialRepaymentRateChange = output<number>();
   specialRepaymentSurchargeChange = output<number>();
+  saveScenario = output<void>();
 
   equityDisplay = '';
   specialRepaymentAbsoluteDisplay = '';
@@ -80,6 +81,10 @@ export class Mortgage {
       case 'years': this.fixedPeriodYearsChange.emit(value); break;
       case 'specialSurcharge': this.specialRepaymentSurchargeChange.emit(value); break;
     }
+  }
+
+  onSaveScenario(): void {
+    this.saveScenario.emit();
   }
 
   onSpecialRepaymentPercentChange(event: Event): void {
