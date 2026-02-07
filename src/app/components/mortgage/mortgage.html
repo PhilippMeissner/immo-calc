@@ -52,7 +52,7 @@
     </div>
   </div>
 
-  <div class="form-row form-row--two">
+  <div class="form-row form-row--three">
     <div class="form-group">
       <label for="specialRepaymentRate">Sondertilgung (% p.a.)</label>
       <input
@@ -62,7 +62,19 @@
         min="0"
         max="100"
         [value]="specialRepaymentRate()"
-        (change)="onNumberChange('specialRate', $event)"
+        (change)="onSpecialRepaymentPercentChange($event)"
+      />
+    </div>
+    <div class="form-group">
+      <label for="specialRepaymentAbsolute">Sondertilgung (€ p.a.)</label>
+      <input
+        id="specialRepaymentAbsolute"
+        type="text"
+        inputmode="numeric"
+        [value]="specialRepaymentAbsoluteDisplay"
+        (input)="onSpecialRepaymentAbsoluteInput($event)"
+        (focus)="onSpecialRepaymentAbsoluteFocus()"
+        (blur)="onSpecialRepaymentAbsoluteBlur()"
       />
     </div>
     <div class="form-group">

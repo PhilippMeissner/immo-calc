@@ -47,6 +47,10 @@ h2 {
   &--two {
     grid-template-columns: 1fr 1fr;
   }
+
+  &--three {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }
 
 .effective-rate {
@@ -149,7 +153,8 @@ h2 {
   .form-row {
     grid-template-columns: 1fr;
 
-    &--two {
+    &--two,
+    &--three {
       grid-template-columns: 1fr;
     }
   }

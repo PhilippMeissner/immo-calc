@@ -29,6 +29,12 @@ export class Mortgage {
   specialRepaymentSurchargeChange = output<number>();
 
   equityDisplay = '';
+  specialRepaymentAbsoluteDisplay = '';
+  private specialRepaymentAbsoluteRaw = 0;
+
+  get specialRepaymentAbsolute(): number {
+    return Math.round(this.loanAmount() * this.specialRepaymentRate() / 100 * 100) / 100;
+  }
 
   get lowEquityWarning(): boolean {
     const total = this.totalCostsPlusPrice();
@@ -42,6 +48,7 @@ export class Mortgage {
 
   ngOnInit(): void {
     this.formatEquity();
+    this.formatSpecialRepaymentAbsolute();
   }
 
   formatEquity(): void {
@@ -64,15 +71,49 @@ export class Mortgage {
     this.formatEquity();
   }
 
-  onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialRate' | 'specialSurcharge', event: Event): void {
+  onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialSurcharge', event: Event): void {
     const value = parseFloat((event.target as HTMLInputElement).value);
     if (isNaN(value)) return;
     switch (field) {
       case 'interest': this.interestRateChange.emit(value); break;
       case 'repayment': this.repaymentRateChange.emit(value); break;
       case 'years': this.fixedPeriodYearsChange.emit(value); break;
-      case 'specialRate': this.specialRepaymentRateChange.emit(value); break;
       case 'specialSurcharge': this.specialRepaymentSurchargeChange.emit(value); break;
     }
+  }
+
+  onSpecialRepaymentPercentChange(event: Event): void {
+    const value = parseFloat((event.target as HTMLInputElement).value);
+    if (isNaN(value)) return;
+    this.specialRepaymentRateChange.emit(value);
+    this.specialRepaymentAbsoluteRaw = Math.round(this.loanAmount() * value / 100 * 100) / 100;
+    this.formatSpecialRepaymentAbsolute();
+  }
+
+  onSpecialRepaymentAbsoluteInput(event: Event): void {
+    const raw = (event.target as HTMLInputElement).value.replace(/\./g, '').replace(/,/g, '');
+    const num = parseInt(raw, 10);
+    const absValue = isNaN(num) ? 0 : num;
+    this.specialRepaymentAbsoluteRaw = absValue;
+    const loan = this.loanAmount();
+    if (loan > 0) {
+      const percent = Math.round(absValue / loan * 100 * 100) / 100;
+      this.specialRepaymentRateChange.emit(percent);
+    }
+  }
+
+  onSpecialRepaymentAbsoluteFocus(): void {
+    const abs = this.specialRepaymentAbsolute;
+    this.specialRepaymentAbsoluteDisplay = abs > 0 ? Math.round(abs).toString() : '';
+  }
+
+  onSpecialRepaymentAbsoluteBlur(): void {
+    this.specialRepaymentAbsoluteRaw = this.specialRepaymentAbsolute;
+    this.formatSpecialRepaymentAbsolute();
+  }
+
+  formatSpecialRepaymentAbsolute(): void {
+    const abs = this.specialRepaymentAbsolute;
+    this.specialRepaymentAbsoluteDisplay = abs > 0 ? Math.round(abs).toLocaleString('de-DE') : '0';
   }
 }
