@@ -110,6 +110,10 @@ h2 {
     padding-right: var(--spacing);
   }
 
+  th.name {
+    text-align: left;
+  }
+
   th.amount {
     text-align: right;
   }
