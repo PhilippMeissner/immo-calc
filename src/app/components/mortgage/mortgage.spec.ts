@@ -18,6 +18,11 @@ describe('Mortgage', () => {
     totalPayment: 165000,
     remainingDebt: 224500,
     totalSpecialRepayment: 0,
+    totalTermMonths: 360,
+    schedule: [
+      { year: 1, beginningBalance: 300000, interest: 10500, principal: 6000, specialRepayment: 0, endingBalance: 294000 },
+      { year: 2, beginningBalance: 294000, interest: 10290, principal: 6210, specialRepayment: 0, endingBalance: 287790 },
+    ],
   };
 
   beforeEach(async () => {
@@ -36,7 +41,7 @@ describe('Mortgage', () => {
     componentRef.setInput('specialRepaymentRate', 5);
     componentRef.setInput('specialRepaymentSurcharge', 0);
     componentRef.setInput('loanAmount', 300000);
-    componentRef.setInput('totalCostsPlusPrice', 350000);
+    componentRef.setInput('purchasePrice', 300000);
     componentRef.setInput('mortgageResult', testMortgageResult);
     componentRef.setInput('mortgageResultWithout', null);
     await fixture.whenStable();
@@ -57,4 +62,5 @@ describe('Mortgage', () => {
     const monthlyText = compiled.querySelector('.result-item .value.big')?.textContent;
     expect(monthlyText).toContain('1.375,00');
   });
+
 });

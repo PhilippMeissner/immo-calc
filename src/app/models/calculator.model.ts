@@ -37,10 +37,21 @@ export interface MortgageInput {
   fixedPeriodYears: number;
 }
 
+export interface AnnuityScheduleEntry {
+  year: number;
+  beginningBalance: number;
+  interest: number;
+  principal: number;
+  specialRepayment: number;
+  endingBalance: number;
+}
+
 export interface MortgageResult {
   monthlyPayment: number;
   totalInterest: number;
   totalPayment: number;
   remainingDebt: number;
   totalSpecialRepayment: number;
+  totalTermMonths: number;
+  schedule: AnnuityScheduleEntry[];
 }
