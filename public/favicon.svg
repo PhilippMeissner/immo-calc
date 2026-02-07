@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- House roof -->
+  <polygon points="16,3 2,15 6,15 6,14.5 16,5 26,14.5 26,15 30,15" fill="#1a5276"/>
+  <!-- House body -->
+  <rect x="6" y="15" width="20" height="14" rx="1" fill="none" stroke="#1a5276" stroke-width="2"/>
+  <!-- Percentage sign -->
+  <circle cx="12" cy="20" r="2" fill="#1a5276"/>
+  <circle cx="20" cy="26" r="2" fill="#1a5276"/>
+  <line x1="20" y1="19" x2="12" y2="27" stroke="#1a5276" stroke-width="2" stroke-linecap="round"/>
+</svg>

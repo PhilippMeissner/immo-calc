@@ -14,6 +14,15 @@ header {
     font-weight: 700;
     color: var(--color-primary);
     margin-bottom: var(--spacing-sm);
+    display: inline-block;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    height: 1.5em;
+    width: 1.5em;
+    margin-right: .5rem;
+    vertical-align: top;
   }
 
   .subtitle {

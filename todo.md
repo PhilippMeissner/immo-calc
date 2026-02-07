@@ -16,5 +16,5 @@
 ## UI bugs
 1. ~~The initial view on a mobile device is wider than the screen and requires scrolling left and right or manually zooming out. It is supposed to take 100% available width on mobile devices by default.~~
 
-2. The labels on the inputs sometimes have line-breaks due to their length. This causes the alignment of multiple inputs next to each other to break and looks bad. They should always be aligned if possible.
+2. ~~The labels on the inputs sometimes have line-breaks due to their length. This causes the alignment of multiple inputs next to each other to break and looks bad. They should always be aligned if possible.~~
 
