@@ -29,6 +29,8 @@ export class Mortgage {
   specialRepaymentSurchargeChange = output<number>();
 
   equityDisplay = '';
+  equityPercentDisplay = '';
+  private lastEquityValue = 0;
   specialRepaymentAbsoluteDisplay = '';
   private lastAbsoluteValue = 0;
 
@@ -43,28 +45,47 @@ export class Mortgage {
   }
 
   ngOnInit(): void {
-    this.formatEquity();
+    this.initEquity();
     this.initSpecialRepaymentAbsolute();
   }
 
-  formatEquity(): void {
-    const eq = this.equity();
-    this.equityDisplay = eq > 0 ? eq.toLocaleString('de-DE') : '';
-  }
-
-  onEquityInput(event: Event): void {
+  onEquityAbsoluteInput(event: Event): void {
     const raw = (event.target as HTMLInputElement).value.replace(/\./g, '').replace(/,/g, '');
     const num = parseInt(raw, 10);
-    this.equityChange.emit(isNaN(num) ? 0 : num);
+    this.lastEquityValue = isNaN(num) ? 0 : num;
+    this.equityChange.emit(this.lastEquityValue);
+    const total = this.totalCostsPlusPrice();
+    this.equityPercentDisplay = total > 0
+      ? (Math.round(this.lastEquityValue / total * 100 * 10) / 10).toString()
+      : '';
   }
 
-  onEquityFocus(): void {
+  onEquityAbsoluteFocus(): void {
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toString() : '';
+  }
+
+  onEquityAbsoluteBlur(): void {
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toLocaleString('de-DE') : '';
+  }
+
+  onEquityPercentInput(event: Event): void {
+    const value = parseFloat((event.target as HTMLInputElement).value);
+    if (isNaN(value)) return;
+    const total = this.totalCostsPlusPrice();
+    const abs = Math.round(total * value / 100);
+    this.lastEquityValue = abs;
+    this.equityDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '';
+    this.equityChange.emit(abs);
+  }
+
+  private initEquity(): void {
     const eq = this.equity();
-    this.equityDisplay = eq > 0 ? eq.toString() : '';
-  }
-
-  onEquityBlur(): void {
-    this.formatEquity();
+    this.lastEquityValue = eq;
+    this.equityDisplay = eq > 0 ? eq.toLocaleString('de-DE') : '';
+    const total = this.totalCostsPlusPrice();
+    this.equityPercentDisplay = total > 0
+      ? (Math.round(eq / total * 100 * 10) / 10).toString()
+      : '';
   }
 
   onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialSurcharge', event: Event): void {

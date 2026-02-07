@@ -1,18 +1,32 @@
 <div class="card">
   <h2>Finanzierung</h2>
 
-  <div class="form-group">
-    <label for="equity">Eigenkapital (€)</label>
-    <input
-      id="equity"
-      type="text"
-      inputmode="numeric"
-      [value]="equityDisplay"
-      (input)="onEquityInput($event)"
-      (focus)="onEquityFocus()"
-      (blur)="onEquityBlur()"
-      placeholder="z.B. 80.000"
-    />
+  <div class="form-row form-row--two">
+    <div class="form-group">
+      <label for="equity">Eigenkapital (€)</label>
+      <input
+        id="equity"
+        type="text"
+        inputmode="numeric"
+        [value]="equityDisplay"
+        (input)="onEquityAbsoluteInput($event)"
+        (focus)="onEquityAbsoluteFocus()"
+        (blur)="onEquityAbsoluteBlur()"
+        placeholder="z.B. 80.000"
+      />
+    </div>
+    <div class="form-group">
+      <label for="equityPercent">Eigenkapital (%)</label>
+      <input
+        id="equityPercent"
+        type="number"
+        step="0.1"
+        min="0"
+        max="100"
+        [value]="equityPercentDisplay"
+        (input)="onEquityPercentInput($event)"
+      />
+    </div>
   </div>
 
   <div class="form-row">
