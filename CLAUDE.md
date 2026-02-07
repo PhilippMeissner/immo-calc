@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**immo-calc** is a German real estate ("Immobilien") purchase cost calculator built with Angular. It calculates Kaufnebenkosten (purchase side costs) and provides a basic mortgage/financing overview. UI is in German. MIT licensed, authored by Philipp Meißner.
+**immo-calc** is a German real estate ("Immobilien") purchase cost calculator built with Angular. It calculates Kaufnebenkosten (purchase side costs) and provides a basic mortgage/financing overview. It is intended to help customers (i.e., borrowers) compare the loan offers of one or more banks and to identify and point out any potential pitfalls. UI is in German. MIT licensed, authored by Philipp Meißner.
 
 ## Tech Stack
 
@@ -24,3 +24,5 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 * cluster changes into meaningful commits
 * do not mention that claude co-authored the commit
 * ask questions if inputs were unclear or need more information
+* provide warnings when applicable to inform a user when values seem off (too high/low)
+
