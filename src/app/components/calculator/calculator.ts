@@ -4,6 +4,7 @@ import { CostResult } from '../cost-result/cost-result';
 import { Mortgage } from '../mortgage/mortgage';
 import { CostHints } from '../cost-hints/cost-hints';
 import { ScenarioCompare } from '../scenario-compare/scenario-compare';
+import { AmortizationTable } from '../amortization-table/amortization-table';
 import { CalculatorService } from '../../services/calculator.service';
 import { MortgageService } from '../../services/mortgage.service';
 import { ScenarioService } from '../../services/scenario.service';
@@ -12,7 +13,7 @@ import { Bundesland, CostRateConfig } from '../../models/calculator.model';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CostInput, CostResult, Mortgage, CostHints, ScenarioCompare],
+  imports: [CostInput, CostResult, Mortgage, CostHints, ScenarioCompare, AmortizationTable],
   templateUrl: './calculator.html',
   styleUrl: './calculator.scss',
 })
@@ -52,6 +53,19 @@ export class Calculator {
     const loan = this.loanAmount();
     if (loan <= 0) return null;
     return this.mortgageService.calculate(
+      loan,
+      this.interestRate(),
+      this.repaymentRate(),
+      this.fixedPeriodYears(),
+      this.specialRepaymentRate(),
+      this.specialRepaymentSurcharge(),
+    );
+  });
+
+  readonly amortizationSchedule = computed(() => {
+    const loan = this.loanAmount();
+    if (loan <= 0) return [];
+    return this.mortgageService.amortizationSchedule(
       loan,
       this.interestRate(),
       this.repaymentRate(),

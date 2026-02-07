@@ -45,6 +45,18 @@ export interface MortgageResult {
   totalSpecialRepayment: number;
 }
 
+export interface AmortizationYear {
+  year: number;
+  debtStart: number;
+  interestPaid: number;
+  principalPaid: number;
+  specialRepayment: number;
+  totalPaid: number;
+  debtEnd: number;
+  interestPercent: number;
+  principalPercent: number;
+}
+
 export interface SavedScenario {
   id: string;
   name: string;

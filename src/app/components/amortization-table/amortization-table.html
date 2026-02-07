@@ -1,0 +1,47 @@
+@if (schedule().length > 0) {
+  <div class="amortization">
+    <button class="toggle-btn" (click)="toggle()">
+      <span>Tilgungsplan anzeigen</span>
+      <span class="chevron" [class.open]="isOpen">&#9660;</span>
+    </button>
+
+    @if (isOpen) {
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Jahr</th>
+              <th class="num">Restschuld Beginn</th>
+              <th class="num">Zinsanteil</th>
+              <th class="num">Tilgungsanteil</th>
+              @if (schedule()[0].specialRepayment > 0) {
+                <th class="num">Sondertilgung</th>
+              }
+              <th class="num">Gezahlt gesamt</th>
+              <th class="num">Restschuld Ende</th>
+              <th class="num">Zins %</th>
+              <th class="num">Tilg. %</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of schedule(); track row.year) {
+              <tr>
+                <td>{{ row.year }}</td>
+                <td class="num">{{ row.debtStart | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num">{{ row.interestPaid | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num">{{ row.principalPaid | number:'1.2-2':'de-DE' }} €</td>
+                @if (schedule()[0].specialRepayment > 0) {
+                  <td class="num">{{ row.specialRepayment | number:'1.2-2':'de-DE' }} €</td>
+                }
+                <td class="num">{{ row.totalPaid | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num">{{ row.debtEnd | number:'1.2-2':'de-DE' }} €</td>
+                <td class="num pct">{{ row.interestPercent | number:'1.1-1':'de-DE' }} %</td>
+                <td class="num pct">{{ row.principalPercent | number:'1.1-1':'de-DE' }} %</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+}
