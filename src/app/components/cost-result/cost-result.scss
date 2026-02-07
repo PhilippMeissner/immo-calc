@@ -69,6 +69,11 @@ h2 {
   }
 }
 
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .breakdown {
   width: 100%;
   border-collapse: collapse;
@@ -146,8 +151,18 @@ h2 {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 600px) {
+  .card {
+    padding: var(--spacing);
+  }
+
   .stat-cards {
     grid-template-columns: 1fr;
+  }
+
+  .breakdown {
+    .rate, .share, .amount {
+      white-space: normal;
+    }
   }
 }
