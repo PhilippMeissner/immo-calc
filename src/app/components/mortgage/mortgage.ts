@@ -30,10 +30,7 @@ export class Mortgage {
 
   equityDisplay = '';
   specialRepaymentAbsoluteDisplay = '';
-
-  get specialRepaymentAbsolute(): number {
-    return Math.round(this.loanAmount() * this.specialRepaymentRate() / 100 * 100) / 100;
-  }
+  private lastAbsoluteValue = 0;
 
   get lowEquityWarning(): boolean {
     const total = this.totalCostsPlusPrice();
@@ -47,7 +44,7 @@ export class Mortgage {
 
   ngOnInit(): void {
     this.formatEquity();
-    this.formatSpecialRepaymentAbsolute();
+    this.initSpecialRepaymentAbsolute();
   }
 
   formatEquity(): void {
@@ -85,31 +82,35 @@ export class Mortgage {
     const value = parseFloat((event.target as HTMLInputElement).value);
     if (isNaN(value)) return;
     this.specialRepaymentRateChange.emit(value);
-    this.formatSpecialRepaymentAbsolute();
+    const abs = Math.round(this.loanAmount() * value / 100);
+    this.lastAbsoluteValue = abs;
+    this.specialRepaymentAbsoluteDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '0';
   }
 
   onSpecialRepaymentAbsoluteInput(event: Event): void {
     const raw = (event.target as HTMLInputElement).value.replace(/\./g, '').replace(/,/g, '');
     const num = parseInt(raw, 10);
-    const absValue = isNaN(num) ? 0 : num;
+    this.lastAbsoluteValue = isNaN(num) ? 0 : num;
     const loan = this.loanAmount();
     if (loan > 0) {
-      const percent = Math.round(absValue / loan * 100 * 100) / 100;
+      const percent = Math.round(this.lastAbsoluteValue / loan * 100 * 100) / 100;
       this.specialRepaymentRateChange.emit(percent);
     }
   }
 
   onSpecialRepaymentAbsoluteFocus(): void {
-    const abs = this.specialRepaymentAbsolute;
-    this.specialRepaymentAbsoluteDisplay = abs > 0 ? Math.round(abs).toString() : '';
+    this.specialRepaymentAbsoluteDisplay = this.lastAbsoluteValue > 0 ? this.lastAbsoluteValue.toString() : '';
   }
 
   onSpecialRepaymentAbsoluteBlur(): void {
-    this.formatSpecialRepaymentAbsolute();
+    this.specialRepaymentAbsoluteDisplay = this.lastAbsoluteValue > 0
+      ? this.lastAbsoluteValue.toLocaleString('de-DE')
+      : '0';
   }
 
-  private formatSpecialRepaymentAbsolute(): void {
-    const abs = this.specialRepaymentAbsolute;
-    this.specialRepaymentAbsoluteDisplay = abs > 0 ? Math.round(abs).toLocaleString('de-DE') : '0';
+  private initSpecialRepaymentAbsolute(): void {
+    const abs = Math.round(this.loanAmount() * this.specialRepaymentRate() / 100);
+    this.lastAbsoluteValue = abs;
+    this.specialRepaymentAbsoluteDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '0';
   }
 }
