@@ -20,11 +20,11 @@ export class Calculator {
 
   readonly bundeslaender = BUNDESLAENDER;
   readonly selectedBundesland = signal<Bundesland>(BUNDESLAENDER[0]);
-  readonly purchasePrice = signal(350000);
+  readonly purchasePrice = signal(180000);
 
   readonly costRates = signal<CostRateConfig[]>(this.buildRates(BUNDESLAENDER[0]));
 
-  readonly equity = signal(50000);
+  readonly equity = signal(39805);
   readonly interestRate = signal(3.5);
   readonly repaymentRate = signal(2.0);
   readonly fixedPeriodYears = signal(10);

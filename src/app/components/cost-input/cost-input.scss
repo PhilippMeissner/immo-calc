@@ -3,6 +3,10 @@
   border-radius: var(--radius);
   padding: var(--spacing-lg);
   box-shadow: var(--shadow);
+
+  @media (max-width: 600px) {
+    padding: var(--spacing);
+  }
 }
 
 h2 {

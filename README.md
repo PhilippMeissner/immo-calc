@@ -1,4 +1,4 @@
-# ImmoCalc
+# <img src="public/favicon.svg" width="32" height="32" alt="ImmoCalc logo"> ImmoCalc
 
 A vibe coded web-app to quickly calculate actual costs for a property in Germany.
 
