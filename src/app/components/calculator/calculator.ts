@@ -41,8 +41,7 @@ export class Calculator {
 
   readonly loanAmount = computed(() => {
     const r = this.result();
-    if (!r) return Math.max(0, this.purchasePrice() - this.equity());
-    return Math.max(0, r.totalPurchasePrice - this.equity());
+    return Math.max(0, (r?.purchasePrice ?? this.purchasePrice()) - this.equity());
   });
 
   readonly mortgageResult = computed(() => {

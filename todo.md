@@ -7,7 +7,7 @@
 
 3. There should be a way to save the currently used settings/results and have a possibility to compare different results with each other easier.
 
-4. The interest costs and remaining debt should optionally be shown in some sort of table, unraveled by year with remaining debt at the start of the year, how much % goes toward repayment and interest costs respectively as well as how much € was paid each year totally and how much debt remains. The table should also consider the special repayment if it was selected.
+4. ~~The interest costs and remaining debt should optionally be shown in some sort of table, unraveled by year with remaining debt at the start of the year, how much % goes toward repayment and interest costs respectively as well as how much € was paid each year totally and how much debt remains. The table should also consider the special repayment if it was selected.~~
 
 5. There should be some kind of rating for the result. This rating needs to be based on the common offers banks gave in the past 12 months.
 

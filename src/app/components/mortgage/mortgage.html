@@ -66,7 +66,7 @@
     </div>
   </div>
 
-  <div class="form-row">
+  <div class="form-row form-row--two">
     <div class="form-group">
       <label for="specialRepaymentRate">Sondertilgung (% p.a.)</label>
       <input
@@ -77,18 +77,6 @@
         max="100"
         [value]="specialRepaymentRate()"
         (input)="onSpecialRepaymentPercentChange($event)"
-      />
-    </div>
-    <div class="form-group">
-      <label for="specialRepaymentAbsolute">Sondertilgung (€ p.a.)</label>
-      <input
-        id="specialRepaymentAbsolute"
-        type="text"
-        inputmode="numeric"
-        [value]="specialRepaymentAbsoluteDisplay"
-        (input)="onSpecialRepaymentAbsoluteInput($event)"
-        (focus)="onSpecialRepaymentAbsoluteFocus()"
-        (blur)="onSpecialRepaymentAbsoluteBlur()"
       />
     </div>
     <div class="form-group">
@@ -153,6 +141,49 @@
           </div>
         }
       </div>
+
+      @if (m.schedule.length > 0) {
+        <button class="schedule-toggle" (click)="toggleSchedule()">
+          {{ showSchedule() ? 'Tilgungsplan ausblenden' : 'Tilgungsplan anzeigen' }}
+        </button>
+
+        @if (showSchedule()) {
+          <div class="table-wrapper">
+            <table class="schedule">
+              <thead>
+                <tr>
+                  <th>Jahr</th>
+                  <th class="amount">Anfangssaldo</th>
+                  <th class="amount">Zinsen</th>
+                  <th class="amount">Anteil</th>
+                  <th class="amount">Tilgung</th>
+                  <th class="amount">Anteil</th>
+                  @if (m.totalSpecialRepayment > 0) {
+                    <th class="amount">Sondertilgung</th>
+                  }
+                  <th class="amount">Restschuld</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (entry of m.schedule; track entry.year) {
+                  <tr>
+                    <td>{{ entry.year }}</td>
+                    <td class="amount">{{ entry.beginningBalance | number:'1.2-2':'de-DE' }} €</td>
+                    <td class="amount">{{ entry.interest | number:'1.2-2':'de-DE' }} €</td>
+                    <td class="amount rate">{{ entry.interest / (entry.interest + entry.principal) * 100 | number:'1.1-1':'de-DE' }} %</td>
+                    <td class="amount">{{ entry.principal | number:'1.2-2':'de-DE' }} €</td>
+                    <td class="amount rate">{{ entry.principal / (entry.interest + entry.principal) * 100 | number:'1.1-1':'de-DE' }} %</td>
+                    @if (m.totalSpecialRepayment > 0) {
+                      <td class="amount">{{ entry.specialRepayment | number:'1.2-2':'de-DE' }} €</td>
+                    }
+                    <td class="amount">{{ entry.endingBalance | number:'1.2-2':'de-DE' }} €</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      }
     }
   }
 </div>

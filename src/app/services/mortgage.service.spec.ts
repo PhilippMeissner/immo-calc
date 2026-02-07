@@ -117,4 +117,34 @@ describe('MortgageService', () => {
       expect(result.totalSpecialRepayment).toBeLessThanOrEqual(150000);
     });
   });
+
+  describe('Tilgungsplan (schedule)', () => {
+    it('should produce one entry per year for the fixed period', () => {
+      const result = service.calculate(300000, 3.5, 2, 10);
+      expect(result.schedule.length).toBe(10);
+      expect(result.schedule[0].year).toBe(1);
+      expect(result.schedule[9].year).toBe(10);
+    });
+
+    it('should have last entry endingBalance equal to remainingDebt', () => {
+      const result = service.calculate(300000, 3.5, 2, 10);
+      const last = result.schedule[result.schedule.length - 1];
+      expect(last.endingBalance).toBe(result.remainingDebt);
+    });
+
+    it('should have first entry beginningBalance equal to loanAmount', () => {
+      const result = service.calculate(300000, 3.5, 2, 10);
+      expect(result.schedule[0].beginningBalance).toBe(300000);
+    });
+
+    it('should include special repayment in schedule entries', () => {
+      const result = service.calculate(300000, 3.5, 2, 10, 5, 0);
+      expect(result.schedule[0].specialRepayment).toBeGreaterThan(0);
+    });
+
+    it('should return empty schedule for invalid inputs', () => {
+      const result = service.calculate(0, 3.5, 2, 10);
+      expect(result.schedule).toEqual([]);
+    });
+  });
 });

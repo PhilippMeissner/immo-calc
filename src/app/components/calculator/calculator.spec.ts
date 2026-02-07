@@ -40,7 +40,9 @@ describe('Calculator', () => {
 
   it('should recalculate when price changes', () => {
     component.onPurchasePriceChange(500000);
+
     const result = component.result();
+
     expect(result).toBeTruthy();
     expect(result!.purchasePrice).toBe(500000);
   });
@@ -49,8 +51,8 @@ describe('Calculator', () => {
     component.onPurchasePriceChange(300000);
     component.onEquityChange(50000);
 
-    const result = component.result();
-    const expectedLoan = result!.totalPurchasePrice - 50000;
-    expect(component.loanAmount()).toBe(expectedLoan);
+    const result = component.loanAmount();
+
+    expect(result).toBe(250000);
   });
 });
