@@ -11,7 +11,7 @@
 
 5. There should be some kind of rating for the result. This rating needs to be based on the common offers banks gave in the past 12 months.
 
-6. The "Eigenkapital" should be more adjustable. It needs to be entered as absolute value as well as a % value. If the % is adjusted the input for the absolute value needs to be recalculated and vice-versa. That way the user is not dependent on the banks unit (ie % vs absolute values).
+6. ~~The "Eigenkapital" should be more adjustable. It needs to be entered as absolute value as well as a % value. If the % is adjusted the input for the absolute value needs to be recalculated and vice-versa. That way the user is not dependent on the banks unit (ie % vs absolute values).~~
 
 ## UI bugs
 1. The initial view on a mobile device is wider than the screen and requires scrolling left and right or manually zooming out. It is supposed to take 100% available width on mobile devices by default.

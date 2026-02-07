@@ -21,8 +21,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `ng test --no-watch` — Run tests once
 
 ## Common rules
-* cluster changes into meaningful commits
 * do not mention that claude co-authored the commit
 * ask questions if inputs were unclear or need more information
-* provide warnings when applicable to inform a user when values seem off (too high/low)
 
