@@ -149,6 +149,52 @@ h2 {
   }
 }
 
+.info-tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 0.25rem;
+  cursor: help;
+
+  .info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    background: var(--color-text-light);
+    color: #fff;
+    font-size: 0.625rem;
+    font-weight: 700;
+    font-style: italic;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .info-tooltip-text {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-text);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.4;
+    border-radius: var(--radius-sm);
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  &:hover .info-tooltip-text,
+  &:focus .info-tooltip-text {
+    display: block;
+  }
+}
+
 @media (max-width: 480px) {
   .form-row {
     grid-template-columns: 1fr;

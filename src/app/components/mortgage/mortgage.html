@@ -111,7 +111,13 @@
     @if (m.monthlyPayment > 0) {
       <div class="results">
         <div class="result-item">
-          <span class="label">Monatliche Rate</span>
+          <span class="label">
+            Monatliche Rate
+            <span class="info-tooltip" tabindex="0">
+              <span class="info-icon">i</span>
+              <span class="info-tooltip-text">Berechnung: Darlehensbetrag × (Sollzins + Tilgung) / 100 / 12 = {{ loanAmount() | number:'1.2-2':'de-DE' }} € × {{ effectiveInterestRate + repaymentRate() | number:'1.2-2':'de-DE' }} % / 12</span>
+            </span>
+          </span>
           <span class="value big">{{ m.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
         </div>
         <div class="result-item">

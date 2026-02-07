@@ -16,7 +16,13 @@
   </div>
 
   <div class="form-group">
-    <label for="bundesland">Bundesland</label>
+    <label for="bundesland">
+      Bundesland
+      <span class="info-tooltip" tabindex="0">
+        <span class="info-icon">i</span>
+        <span class="info-tooltip-text">Die Grunderwerbsteuer und übliche Maklergebühren variieren je nach Bundesland. Die Auswahl ermöglicht eine genaue Berechnung der Kaufnebenkosten.</span>
+      </span>
+    </label>
     <select id="bundesland" [value]="selectedBundesland().code" (change)="onBundeslandChange($any($event.target).value)">
       @for (bl of bundeslaender(); track bl.code) {
         <option [value]="bl.code">{{ bl.name }}</option>
