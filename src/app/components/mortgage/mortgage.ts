@@ -1,11 +1,12 @@
-import { Component, effect, input, output, signal, untracked } from '@angular/core';
+import { Component, effect, input, output, untracked } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MortgageResult } from '../../models/calculator.model';
+import { Tilgungsplan } from '../tilgungsplan/tilgungsplan';
 
 @Component({
   selector: 'app-mortgage',
-  imports: [DecimalPipe, FormsModule],
+  imports: [DecimalPipe, FormsModule, Tilgungsplan],
   templateUrl: './mortgage.html',
   styleUrl: './mortgage.scss',
 })
@@ -27,8 +28,6 @@ export class Mortgage {
   fixedPeriodYearsChange = output<number>();
   specialRepaymentRateChange = output<number>();
   specialRepaymentSurchargeChange = output<number>();
-
-  showSchedule = signal(false);
 
   equityDisplay = '';
   equityPercentDisplay = '';
@@ -105,7 +104,4 @@ export class Mortgage {
     this.specialRepaymentRateChange.emit(value);
   }
 
-  toggleSchedule(): void {
-    this.showSchedule.update(v => !v);
-  }
 }

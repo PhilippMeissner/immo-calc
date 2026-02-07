@@ -1,0 +1,64 @@
+.schedule-toggle {
+  display: block;
+  margin: var(--spacing) auto 0;
+  padding: var(--spacing-sm) var(--spacing);
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-top: var(--spacing);
+}
+
+.schedule {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+    padding: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-border);
+    text-align: left;
+
+    &.amount {
+      text-align: right;
+    }
+  }
+
+  td {
+    font-size: 0.875rem;
+    padding: var(--spacing-sm);
+    border-bottom: 1px solid var(--color-border);
+
+    &.amount {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    &.rate {
+      color: var(--color-text-light);
+      font-size: 0.75rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .schedule {
+    th, td {
+      font-size: 0.75rem;
+      padding: var(--spacing-sm) 0.25rem;
+    }
+  }
+}

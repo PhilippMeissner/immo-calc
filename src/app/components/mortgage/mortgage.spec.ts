@@ -63,18 +63,4 @@ describe('Mortgage', () => {
     expect(monthlyText).toContain('1.375,00');
   });
 
-  it('should toggle schedule table on button click', async () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const toggleBtn = compiled.querySelector('.schedule-toggle') as HTMLButtonElement;
-    expect(toggleBtn).toBeTruthy();
-    expect(compiled.querySelector('.schedule')).toBeNull();
-
-    toggleBtn.click();
-    fixture.detectChanges();
-    expect(compiled.querySelector('.schedule')).toBeTruthy();
-
-    toggleBtn.click();
-    fixture.detectChanges();
-    expect(compiled.querySelector('.schedule')).toBeNull();
-  });
 });
