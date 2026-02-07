@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output, untracked } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MortgageResult } from '../../models/calculator.model';
@@ -29,6 +29,27 @@ export class Mortgage {
   specialRepaymentSurchargeChange = output<number>();
 
   equityDisplay = '';
+  equityPercentDisplay = '';
+  private lastEquityValue = 0;
+  specialRepaymentAbsoluteDisplay = '';
+  private lastAbsoluteValue = 0;
+
+  constructor() {
+    // When totalCostsPlusPrice changes (e.g. Kaufpreis), recalculate Eigenkapital %
+    effect(() => {
+      const total = this.totalCostsPlusPrice();
+      untracked(() => this.updateEquityPercentDisplay(total));
+    });
+
+    // When loanAmount changes (e.g. Kaufpreis or Eigenkapital), recalculate Sondertilgung €
+    effect(() => {
+      const loan = this.loanAmount();
+      untracked(() => {
+        const rate = this.specialRepaymentRate();
+        this.updateSpecialRepaymentAbsoluteDisplay(loan, rate);
+      });
+    });
+  }
 
   get lowEquityWarning(): boolean {
     const total = this.totalCostsPlusPrice();
@@ -41,38 +62,84 @@ export class Mortgage {
   }
 
   ngOnInit(): void {
-    this.formatEquity();
+    this.lastEquityValue = this.equity();
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toLocaleString('de-DE') : '';
   }
 
-  formatEquity(): void {
-    const eq = this.equity();
-    this.equityDisplay = eq > 0 ? eq.toLocaleString('de-DE') : '';
-  }
-
-  onEquityInput(event: Event): void {
+  onEquityAbsoluteInput(event: Event): void {
     const raw = (event.target as HTMLInputElement).value.replace(/\./g, '').replace(/,/g, '');
     const num = parseInt(raw, 10);
-    this.equityChange.emit(isNaN(num) ? 0 : num);
+    this.lastEquityValue = isNaN(num) ? 0 : num;
+    this.equityChange.emit(this.lastEquityValue);
+    this.updateEquityPercentDisplay(this.totalCostsPlusPrice());
   }
 
-  onEquityFocus(): void {
-    const eq = this.equity();
-    this.equityDisplay = eq > 0 ? eq.toString() : '';
+  onEquityAbsoluteFocus(): void {
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toString() : '';
   }
 
-  onEquityBlur(): void {
-    this.formatEquity();
+  onEquityAbsoluteBlur(): void {
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toLocaleString('de-DE') : '';
   }
 
-  onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialRate' | 'specialSurcharge', event: Event): void {
+  onEquityPercentInput(event: Event): void {
+    const value = parseFloat((event.target as HTMLInputElement).value);
+    if (isNaN(value)) return;
+    const total = this.totalCostsPlusPrice();
+    const abs = Math.round(total * value / 100);
+    this.lastEquityValue = abs;
+    this.equityDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '';
+    this.equityChange.emit(abs);
+  }
+
+  private updateEquityPercentDisplay(total: number): void {
+    this.equityPercentDisplay = total > 0
+      ? (Math.round(this.lastEquityValue / total * 100 * 10) / 10).toString()
+      : '';
+  }
+
+  onNumberChange(field: 'interest' | 'repayment' | 'years' | 'specialSurcharge', event: Event): void {
     const value = parseFloat((event.target as HTMLInputElement).value);
     if (isNaN(value)) return;
     switch (field) {
       case 'interest': this.interestRateChange.emit(value); break;
       case 'repayment': this.repaymentRateChange.emit(value); break;
       case 'years': this.fixedPeriodYearsChange.emit(value); break;
-      case 'specialRate': this.specialRepaymentRateChange.emit(value); break;
       case 'specialSurcharge': this.specialRepaymentSurchargeChange.emit(value); break;
     }
+  }
+
+  onSpecialRepaymentPercentChange(event: Event): void {
+    const value = parseFloat((event.target as HTMLInputElement).value);
+    if (isNaN(value)) return;
+    this.specialRepaymentRateChange.emit(value);
+    this.updateSpecialRepaymentAbsoluteDisplay(this.loanAmount(), value);
+  }
+
+  onSpecialRepaymentAbsoluteInput(event: Event): void {
+    const raw = (event.target as HTMLInputElement).value.replace(/\./g, '').replace(/,/g, '');
+    const num = parseInt(raw, 10);
+    this.lastAbsoluteValue = isNaN(num) ? 0 : num;
+    const loan = this.loanAmount();
+    if (loan > 0) {
+      const percent = Math.round(this.lastAbsoluteValue / loan * 100 * 100) / 100;
+      this.specialRepaymentRateChange.emit(percent);
+    }
+  }
+
+  onSpecialRepaymentAbsoluteFocus(): void {
+    this.specialRepaymentAbsoluteDisplay = this.lastAbsoluteValue > 0 ? this.lastAbsoluteValue.toString() : '';
+  }
+
+  onSpecialRepaymentAbsoluteBlur(): void {
+    this.specialRepaymentAbsoluteDisplay = this.lastAbsoluteValue > 0
+      ? this.lastAbsoluteValue.toLocaleString('de-DE')
+      : '0';
+  }
+
+  private updateSpecialRepaymentAbsoluteDisplay(loan: number, rate: number): void {
+    const abs = Math.round(loan * rate / 100);
+    this.lastAbsoluteValue = abs;
+    this.specialRepaymentAbsoluteDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '0';
   }
 }
