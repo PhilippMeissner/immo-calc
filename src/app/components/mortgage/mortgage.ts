@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, effect, input, output, untracked } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MortgageResult } from '../../models/calculator.model';
@@ -34,6 +34,23 @@ export class Mortgage {
   specialRepaymentAbsoluteDisplay = '';
   private lastAbsoluteValue = 0;
 
+  constructor() {
+    // When totalCostsPlusPrice changes (e.g. Kaufpreis), recalculate Eigenkapital %
+    effect(() => {
+      const total = this.totalCostsPlusPrice();
+      untracked(() => this.updateEquityPercentDisplay(total));
+    });
+
+    // When loanAmount changes (e.g. Kaufpreis or Eigenkapital), recalculate Sondertilgung €
+    effect(() => {
+      const loan = this.loanAmount();
+      untracked(() => {
+        const rate = this.specialRepaymentRate();
+        this.updateSpecialRepaymentAbsoluteDisplay(loan, rate);
+      });
+    });
+  }
+
   get lowEquityWarning(): boolean {
     const total = this.totalCostsPlusPrice();
     const eq = this.equity();
@@ -45,8 +62,8 @@ export class Mortgage {
   }
 
   ngOnInit(): void {
-    this.initEquity();
-    this.initSpecialRepaymentAbsolute();
+    this.lastEquityValue = this.equity();
+    this.equityDisplay = this.lastEquityValue > 0 ? this.lastEquityValue.toLocaleString('de-DE') : '';
   }
 
   onEquityAbsoluteInput(event: Event): void {
@@ -54,10 +71,7 @@ export class Mortgage {
     const num = parseInt(raw, 10);
     this.lastEquityValue = isNaN(num) ? 0 : num;
     this.equityChange.emit(this.lastEquityValue);
-    const total = this.totalCostsPlusPrice();
-    this.equityPercentDisplay = total > 0
-      ? (Math.round(this.lastEquityValue / total * 100 * 10) / 10).toString()
-      : '';
+    this.updateEquityPercentDisplay(this.totalCostsPlusPrice());
   }
 
   onEquityAbsoluteFocus(): void {
@@ -78,13 +92,9 @@ export class Mortgage {
     this.equityChange.emit(abs);
   }
 
-  private initEquity(): void {
-    const eq = this.equity();
-    this.lastEquityValue = eq;
-    this.equityDisplay = eq > 0 ? eq.toLocaleString('de-DE') : '';
-    const total = this.totalCostsPlusPrice();
+  private updateEquityPercentDisplay(total: number): void {
     this.equityPercentDisplay = total > 0
-      ? (Math.round(eq / total * 100 * 10) / 10).toString()
+      ? (Math.round(this.lastEquityValue / total * 100 * 10) / 10).toString()
       : '';
   }
 
@@ -103,9 +113,7 @@ export class Mortgage {
     const value = parseFloat((event.target as HTMLInputElement).value);
     if (isNaN(value)) return;
     this.specialRepaymentRateChange.emit(value);
-    const abs = Math.round(this.loanAmount() * value / 100);
-    this.lastAbsoluteValue = abs;
-    this.specialRepaymentAbsoluteDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '0';
+    this.updateSpecialRepaymentAbsoluteDisplay(this.loanAmount(), value);
   }
 
   onSpecialRepaymentAbsoluteInput(event: Event): void {
@@ -129,8 +137,8 @@ export class Mortgage {
       : '0';
   }
 
-  private initSpecialRepaymentAbsolute(): void {
-    const abs = Math.round(this.loanAmount() * this.specialRepaymentRate() / 100);
+  private updateSpecialRepaymentAbsoluteDisplay(loan: number, rate: number): void {
+    const abs = Math.round(loan * rate / 100);
     this.lastAbsoluteValue = abs;
     this.specialRepaymentAbsoluteDisplay = abs > 0 ? abs.toLocaleString('de-DE') : '0';
   }
