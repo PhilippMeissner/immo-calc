@@ -47,6 +47,20 @@ h2 {
   &--two {
     grid-template-columns: 1fr 1fr;
   }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+
+    label {
+      flex: 1;
+    }
+
+    input {
+      flex-shrink: 0;
+    }
+  }
 }
 
 .effective-rate {
