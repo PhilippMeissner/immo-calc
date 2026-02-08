@@ -1,5 +1,5 @@
-<button class="schedule-toggle" (click)="toggleSchedule()">
-  Tilgungsplan {{ showSchedule() ? 'ausblenden' : 'anzeigen' }}
+<button class="section-toggle" [class.open]="showSchedule()" (click)="toggleSchedule()">
+  Tilgungsplan
 </button>
 
 @if (showSchedule()) {

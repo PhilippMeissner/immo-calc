@@ -1,7 +1,7 @@
 .calculator-layout {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: var(--spacing-lg);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
   align-items: start;
 }
 
@@ -13,8 +13,6 @@
 }
 
 .result-column {
-  position: sticky;
-  top: var(--spacing-lg);
   min-width: 0;
 
   display: flex;
@@ -25,9 +23,5 @@
 @media (max-width: 900px) {
   .calculator-layout {
     grid-template-columns: 1fr;
-  }
-
-  .result-column {
-    position: static;
   }
 }

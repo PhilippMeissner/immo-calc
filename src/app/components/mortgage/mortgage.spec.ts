@@ -59,7 +59,7 @@ describe('Mortgage', () => {
 
   it('should display monthly payment', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const monthlyText = compiled.querySelector('.result-item .value.big')?.textContent;
+    const monthlyText = compiled.querySelector('.result-item .value')?.textContent;
     expect(monthlyText).toContain('1.375,00');
   });
 
