@@ -1,18 +1,3 @@
-.schedule-toggle {
-  display: block;
-  margin: var(--spacing) auto 0;
-  padding: var(--spacing-sm) var(--spacing);
-  background: none;
-  border: none;
-  color: var(--color-primary);
-  font-size: 0.875rem;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .table-wrapper {
   overflow-x: auto;
   margin-top: var(--spacing);

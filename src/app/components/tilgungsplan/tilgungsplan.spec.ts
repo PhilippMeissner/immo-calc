@@ -34,7 +34,7 @@ describe('Tilgungsplan', () => {
 
   it('should toggle schedule table on button click', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const toggleBtn = compiled.querySelector('.schedule-toggle') as HTMLButtonElement;
+    const toggleBtn = compiled.querySelector('.section-toggle') as HTMLButtonElement;
     expect(toggleBtn).toBeTruthy();
     expect(compiled.querySelector('.schedule')).toBeNull();
 

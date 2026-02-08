@@ -50,7 +50,12 @@ describe('CostResult', () => {
   });
 
   it('should display all cost items in table', () => {
-    const rows = fixture.nativeElement.querySelectorAll('.breakdown tbody tr');
+    const compiled = fixture.nativeElement as HTMLElement;
+    const expandRow = compiled.querySelector('.expandable-row') as HTMLElement;
+    expandRow.click();
+    fixture.detectChanges();
+
+    const rows = compiled.querySelectorAll('.breakdown tbody tr');
     expect(rows.length).toBe(6); // purchase price, total costs + 4 sub cost items
   });
 });

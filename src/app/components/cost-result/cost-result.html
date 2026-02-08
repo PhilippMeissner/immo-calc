@@ -19,8 +19,8 @@
       </div>
     </div>
 
-    <button class="table-toggle" (click)="toggleTable()">
-      Kostenaufschlüsselung {{ showTable() ? 'ausblenden' : 'anzeigen' }}
+    <button class="section-toggle" [class.open]="showTable()" (click)="toggleTable()">
+      Kostenaufschlüsselung
     </button>
 
     @if (showTable()) {
@@ -39,8 +39,8 @@
             <td class="rate"></td>
             <td class="amount">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</td>
           </tr>
-          <tr class="purchase-row">
-            <td class="clickable" (click)="toggleCostItems()">Kaufnebenkosten <span>(klicken zum {{showCostItems() ? 'ausblenden' : 'anzeigen'}})</span></td>
+          <tr class="purchase-row expandable-row" (click)="toggleCostItems()">
+            <td><span class="row-chevron" [class.open]="showCostItems()"></span>Kaufnebenkosten</td>
             <td class="rate">{{ costPercentage() | number:'1.2-2':'de-DE' }} %</td>
             <td class="amount">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</td>
           </tr>
