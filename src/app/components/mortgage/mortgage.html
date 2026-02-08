@@ -114,7 +114,7 @@
       <div class="results">
         <div class="result-item">
           <span class="label">Monatliche Rate</span>
-          <span class="value big">{{ m.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
+          <span class="value">{{ m.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
         </div>
         <div class="result-item">
           <span class="label">Zinsen in {{ fixedPeriodYears() }} Jahren</span>
@@ -132,7 +132,7 @@
         </div>
         @if (m.remainingDebt > 0 && m.totalTermMonths > 0) {
           <div class="result-item">
-            <span class="label">Gesamtlaufzeit bei Folgekredit mit gleichbleibenden Konditionen</span>
+            <span class="label">Abbezahlt durch Folgekredit mit gleichbleibenden Konditionen</span>
             <span class="value">{{ (m.totalTermMonths - m.totalTermMonths % 12) / 12 }} Jahre {{ m.totalTermMonths % 12 }} Monate</span>
           </div>
         }

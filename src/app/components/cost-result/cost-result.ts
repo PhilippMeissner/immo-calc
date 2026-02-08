@@ -1,15 +1,26 @@
-import { Component, computed, input } from '@angular/core';
+import {Component, computed, input, signal} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { CalculationResult } from '../../models/calculator.model';
+import {CostHints} from '../cost-hints/cost-hints';
 
 @Component({
   selector: 'app-cost-result',
-  imports: [DecimalPipe],
+  imports: [DecimalPipe, CostHints],
   templateUrl: './cost-result.html',
   styleUrl: './cost-result.scss',
 })
 export class CostResult {
   result = input.required<CalculationResult | null>();
+  showTable = signal<boolean>(true);
+  showCostItems = signal<boolean>(false);
+
+  toggleTable() {
+    this.showTable.update((isShown) => !isShown);
+  }
+
+  toggleCostItems() {
+    this.showCostItems.update((isShown) => !isShown);
+  }
 
   costPercentage = computed(() => {
     const r = this.result();

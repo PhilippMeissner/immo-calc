@@ -128,6 +128,10 @@ h2 {
     td {
       font-weight: 500;
       background: var(--color-bg);
+
+      &.clickable {
+        cursor: pointer;
+      }
     }
   }
 
@@ -152,6 +156,21 @@ h2 {
     font-weight: 700;
     font-size: 1rem;
     padding-top: 0.75rem;
+  }
+}
+
+.table-toggle {
+  display: block;
+  margin: var(--spacing) auto 0;
+  padding: var(--spacing-sm) var(--spacing);
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

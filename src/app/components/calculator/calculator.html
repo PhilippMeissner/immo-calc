@@ -10,6 +10,10 @@
       (rateChange)="onRateChange($event)"
       (toggleChange)="onToggleChange($event)"
     />
+  </div>
+
+  <div class="result-column">
+    <app-cost-result [result]="result()" />
 
     <app-mortgage
       [equity]="equity()"
@@ -29,11 +33,5 @@
       (specialRepaymentRateChange)="onSpecialRepaymentRateChange($event)"
       (specialRepaymentSurchargeChange)="onSpecialRepaymentSurchargeChange($event)"
     />
-
-    <app-cost-hints />
-  </div>
-
-  <div class="result-column">
-    <app-cost-result [result]="result()" />
   </div>
 </div>

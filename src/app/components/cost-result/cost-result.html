@@ -1,6 +1,6 @@
 @if (result(); as r) {
   <div class="card">
-    <h2>Ergebnis</h2>
+    <h2>Unmittelbare Kosten</h2>
 
     <div class="hero">
       <span class="hero-label">Gesamtkosten</span>
@@ -19,47 +19,57 @@
       </div>
     </div>
 
-    <div class="table-wrapper">
-    <table class="breakdown">
-      <thead>
-        <tr>
-          <th class="name">Position</th>
-          <th class="rate">% des Kaufpreises</th>
-          <th class="amount">Betrag</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="purchase-row">
-          <td>Kaufpreis</td>
-          <td class="rate"></td>
-          <td class="amount">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</td>
-        </tr>
-        <tr class="purchase-row">
-          <td>Kaufnebenkosten</td>
-          <td class="rate">{{ costPercentage() | number:'1.2-2':'de-DE' }} %</td>
-          <td class="amount">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</td>
-        </tr>
-        @for (item of costItemsWithShare(); track item.label) {
-          <tr [class.disabled]="!item.isEnabled">
-            <td class="indent">
-              {{ item.label }}
-              @if (!item.isEnabled) {
-                <span class="badge">deaktiviert</span>
-              }
-            </td>
-            <td class="rate">{{ item.rate | number:'1.2-2':'de-DE' }} %</td>
-            <td class="amount">{{ item.amount | number:'1.2-2':'de-DE' }} €</td>
+    <button class="table-toggle" (click)="toggleTable()">
+      Kostenaufschlüsselung {{ showTable() ? 'ausblenden' : 'anzeigen' }}
+    </button>
+
+    @if (showTable()) {
+      <div class="table-wrapper">
+        <table class="breakdown">
+          <thead>
+          <tr>
+            <th class="name">Position</th>
+            <th class="rate">% des Kaufpreises</th>
+            <th class="amount">Betrag</th>
           </tr>
-        }
-      </tbody>
-      <tfoot>
-        <tr class="total-row">
-          <td>Gesamtkosten</td>
-          <td class="rate"></td>
-          <td class="amount">{{ r.totalPurchasePrice | number:'1.2-2':'de-DE' }} €</td>
-        </tr>
-      </tfoot>
-    </table>
-    </div>
+          </thead>
+          <tbody>
+          <tr class="purchase-row">
+            <td>Kaufpreis</td>
+            <td class="rate"></td>
+            <td class="amount">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</td>
+          </tr>
+          <tr class="purchase-row">
+            <td class="clickable" (click)="toggleCostItems()">Kaufnebenkosten <span>(klicken zum {{showCostItems() ? 'ausblenden' : 'anzeigen'}})</span></td>
+            <td class="rate">{{ costPercentage() | number:'1.2-2':'de-DE' }} %</td>
+            <td class="amount">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</td>
+          </tr>
+          @if(showCostItems()) {
+            @for (item of costItemsWithShare(); track item.label) {
+              <tr [class.disabled]="!item.isEnabled">
+                <td class="indent">
+                  {{ item.label }}
+                  @if (!item.isEnabled) {
+                    <span class="badge">deaktiviert</span>
+                  }
+                </td>
+                <td class="rate">{{ item.rate | number:'1.2-2':'de-DE' }} %</td>
+                <td class="amount">{{ item.amount | number:'1.2-2':'de-DE' }} €</td>
+              </tr>
+            }
+          }
+          </tbody>
+          <tfoot>
+          <tr class="total-row">
+            <td>Gesamtkosten</td>
+            <td class="rate"></td>
+            <td class="amount">{{ r.totalPurchasePrice | number:'1.2-2':'de-DE' }} €</td>
+          </tr>
+          </tfoot>
+        </table>
+      </div>
+    }
+
+    <app-cost-hints />
   </div>
 }

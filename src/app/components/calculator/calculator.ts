@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { CostInput } from '../cost-input/cost-input';
 import { CostResult } from '../cost-result/cost-result';
 import { Mortgage } from '../mortgage/mortgage';
-import { CostHints } from '../cost-hints/cost-hints';
+
 import { CalculatorService } from '../../services/calculator.service';
 import { MortgageService } from '../../services/mortgage.service';
 import { BUNDESLAENDER, DEFAULT_GRUNDBUCH_RATE, DEFAULT_NOTAR_RATE } from '../../data/bundeslaender.data';
@@ -10,7 +10,7 @@ import { Bundesland, CostRateConfig } from '../../models/calculator.model';
 
 @Component({
   selector: 'app-calculator',
-  imports: [CostInput, CostResult, Mortgage, CostHints],
+  imports: [CostInput, CostResult, Mortgage],
   templateUrl: './calculator.html',
   styleUrl: './calculator.scss',
 })

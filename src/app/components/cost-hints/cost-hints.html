@@ -1,10 +1,10 @@
 <div class="card">
-  <button class="toggle" (click)="toggle()" [class.open]="isOpen">
+  <button class="toggle" (click)="toggle()" [class.open]="showHints()">
     <span class="toggle-icon">&#9656;</span>
     <span>Weitere Kosten beachten</span>
   </button>
 
-  @if (isOpen) {
+  @if (showHints()) {
     <ul class="hints-list">
       <li>
         <strong>Grundsteuer</strong>
@@ -25,10 +25,6 @@
       <li>
         <strong>Modernisierungspflicht</strong>
         <span>GEG: Heizungstausch/Dämmung ggf. innerhalb von 2 Jahren nach Kauf.</span>
-      </li>
-      <li>
-        <strong>Bereitstellungszinsen</strong>
-        <span>Bei Neubau: 0,25 %/Monat auf nicht abgerufene Darlehensteile nach zinsfreier Zeit.</span>
       </li>
     </ul>
   }

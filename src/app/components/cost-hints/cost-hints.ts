@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, signal} from '@angular/core';
 
 @Component({
   selector: 'app-cost-hints',
@@ -6,9 +6,9 @@ import { Component } from '@angular/core';
   styleUrl: './cost-hints.scss',
 })
 export class CostHints {
-  isOpen = false;
+  showHints = signal<boolean>(false);
 
   toggle(): void {
-    this.isOpen = !this.isOpen;
+    this.showHints.update((isShown) => !isShown);
   }
 }
