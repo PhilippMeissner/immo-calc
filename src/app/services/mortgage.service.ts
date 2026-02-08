@@ -21,8 +21,6 @@ export class MortgageService {
 
     const monthlyInterestRate = effectiveInterestRate / 100 / 12;
     const totalMonths = fixedPeriodYears * 12;
-    const annualSpecialRepayment = loanAmount * specialRepaymentRate / 100;
-
     let remainingDebt = loanAmount;
     let totalInterest = 0;
     let totalPayment = 0;
@@ -45,7 +43,7 @@ export class MortgageService {
       // Apply annual special repayment at the end of each year
       let yearSpecial = 0;
       if (specialRepaymentRate > 0 && (i + 1) % 12 === 0) {
-        const actualSpecial = Math.min(annualSpecialRepayment, remainingDebt);
+        const actualSpecial = Math.min(yearBeginningBalance * specialRepaymentRate / 100, remainingDebt);
         remainingDebt -= actualSpecial;
         totalSpecialRepayment += actualSpecial;
         totalPayment += actualSpecial;
@@ -76,6 +74,7 @@ export class MortgageService {
     // Project total term: continue with same conditions until debt is fully repaid
     let projectedDebt = remainingDebt;
     let totalTermMonths = totalMonths;
+    let projectedYearStart = remainingDebt;
     const maxMonths = 100 * 12; // safety cap at 100 years
     while (projectedDebt > 0 && totalTermMonths < maxMonths) {
       const interest = projectedDebt * monthlyInterestRate;
@@ -85,7 +84,8 @@ export class MortgageService {
       totalTermMonths++;
 
       if (specialRepaymentRate > 0 && totalTermMonths % 12 === 0) {
-        projectedDebt -= Math.min(annualSpecialRepayment, Math.max(projectedDebt, 0));
+        projectedDebt -= Math.min(projectedYearStart * specialRepaymentRate / 100, Math.max(projectedDebt, 0));
+        projectedYearStart = projectedDebt;
       }
     }
     if (projectedDebt <= 0) {
