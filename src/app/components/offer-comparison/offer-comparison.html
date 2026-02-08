@@ -1,0 +1,77 @@
+<div class="table-wrapper">
+  <table class="comparison-table">
+    <thead>
+      <tr>
+        <th class="row-label"></th>
+        @for (item of offers(); track item.offer.id) {
+          <th class="offer-col">{{ item.offer.bankName || 'Ohne Name' }}</th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="row-label">Sollzins</td>
+        @for (item of offers(); track item.offer.id) {
+          <td [class.best]="item.offer.id === bestInterestId()">{{ item.offer.interestRate | number:'1.2-2':'de-DE' }} %</td>
+        }
+      </tr>
+      <tr>
+        <td class="row-label">Tilgung</td>
+        @for (item of offers(); track item.offer.id) {
+          <td>{{ item.offer.repaymentRate | number:'1.2-2':'de-DE' }} %</td>
+        }
+      </tr>
+      <tr>
+        <td class="row-label">Zinsbindung</td>
+        @for (item of offers(); track item.offer.id) {
+          <td>{{ item.offer.fixedPeriodYears }} Jahre</td>
+        }
+      </tr>
+      <tr>
+        <td class="row-label">Sondertilgung</td>
+        @for (item of offers(); track item.offer.id) {
+          <td>{{ item.offer.specialRepaymentRate | number:'1.0-0':'de-DE' }} % p.a.</td>
+        }
+      </tr>
+      @if (offers()[0]?.result) {
+        <tr class="section-divider">
+          <td [attr.colspan]="offers().length + 1"></td>
+        </tr>
+        <tr>
+          <td class="row-label">Monatliche Rate</td>
+          @for (item of offers(); track item.offer.id) {
+            <td [class.best]="item.offer.id === bestMonthlyId()">{{ item.result?.monthlyPayment | number:'1.2-2':'de-DE' }} €</td>
+          }
+        </tr>
+        <tr>
+          <td class="row-label">Zinsen gesamt</td>
+          @for (item of offers(); track item.offer.id) {
+            <td [class.best]="item.offer.id === bestTotalInterestId()">{{ item.result?.totalInterest | number:'1.2-2':'de-DE' }} €</td>
+          }
+        </tr>
+        <tr>
+          <td class="row-label">Restschuld</td>
+          @for (item of offers(); track item.offer.id) {
+            <td [class.best]="item.offer.id === bestRemainingDebtId()">{{ item.result?.remainingDebt | number:'1.2-2':'de-DE' }} €</td>
+          }
+        </tr>
+        <tr>
+          <td class="row-label">Sondertilgungen</td>
+          @for (item of offers(); track item.offer.id) {
+            <td>{{ item.result?.totalSpecialRepayment | number:'1.2-2':'de-DE' }} €</td>
+          }
+        </tr>
+        <tr>
+          <td class="row-label">Laufzeit gesamt</td>
+          @for (item of offers(); track item.offer.id) {
+            @if (item.result && item.result.totalTermMonths > 0) {
+              <td>{{ (item.result.totalTermMonths - item.result.totalTermMonths % 12) / 12 }} J. {{ item.result.totalTermMonths % 12 }} M.</td>
+            } @else {
+              <td class="muted">–</td>
+            }
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

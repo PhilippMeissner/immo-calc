@@ -1,0 +1,55 @@
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th, td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  thead th {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 0.625rem;
+  }
+
+  .row-label {
+    text-align: left;
+    font-weight: 500;
+    color: var(--color-text-light);
+    font-size: 0.8125rem;
+    padding-left: 0;
+  }
+
+  .offer-col {
+    min-width: 8rem;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section-divider td {
+    padding: 0;
+    border-bottom: 2px solid var(--color-border);
+  }
+
+  .best {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .muted {
+    color: var(--color-text-light);
+  }
+}

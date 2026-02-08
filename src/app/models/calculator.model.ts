@@ -55,3 +55,19 @@ export interface MortgageResult {
   totalTermMonths: number;
   schedule: AnnuityScheduleEntry[];
 }
+
+export interface LoanOffer {
+  id: string;
+  bankName: string;
+  interestRate: number;
+  repaymentRate: number;
+  fixedPeriodYears: number;
+  specialRepaymentRate: number;
+  specialRepaymentSurcharge: number;
+}
+
+export interface LoanOfferExport {
+  version: 1;
+  exportDate: string;
+  offers: LoanOffer[];
+}
