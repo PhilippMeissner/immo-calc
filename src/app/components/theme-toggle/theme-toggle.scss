@@ -1,0 +1,23 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+  &:hover {
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
+  }
+}
+
+.icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
