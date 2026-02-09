@@ -2,10 +2,11 @@ import {Component, computed, input, signal} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { CalculationResult } from '../../models/calculator.model';
 import {CostHints} from '../cost-hints/cost-hints';
+import { InfoTooltip } from '../info-tooltip/info-tooltip';
 
 @Component({
   selector: 'app-cost-result',
-  imports: [DecimalPipe, CostHints],
+  imports: [DecimalPipe, CostHints, InfoTooltip],
   templateUrl: './cost-result.html',
   styleUrl: './cost-result.scss',
 })

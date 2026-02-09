@@ -3,10 +3,11 @@ import { DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MortgageResult } from '../../models/calculator.model';
 import { Tilgungsplan } from '../tilgungsplan/tilgungsplan';
+import { InfoTooltip } from '../info-tooltip/info-tooltip';
 
 @Component({
   selector: 'app-mortgage',
-  imports: [DecimalPipe, FormsModule, Tilgungsplan],
+  imports: [DecimalPipe, FormsModule, Tilgungsplan, InfoTooltip],
   templateUrl: './mortgage.html',
   styleUrl: './mortgage.scss',
 })

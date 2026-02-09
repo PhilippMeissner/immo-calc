@@ -1,14 +1,21 @@
 import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Bundesland, CostRateConfig } from '../../models/calculator.model';
+import { InfoTooltip } from '../info-tooltip/info-tooltip';
 
 @Component({
   selector: 'app-cost-input',
-  imports: [FormsModule],
+  imports: [FormsModule, InfoTooltip],
   templateUrl: './cost-input.html',
   styleUrl: './cost-input.scss',
 })
 export class CostInput {
+  readonly tooltips: Record<string, string> = {
+    transferTax: 'Steuer beim Immobilienkauf, die ans Finanzamt gezahlt wird. Der Satz variiert je nach Bundesland zwischen 3,5 % und 6,5 %.',
+    notar: 'Der Notar beurkundet den Kaufvertrag – das ist gesetzlich vorgeschrieben. Üblich sind ca. 1,5 % des Kaufpreises.',
+    grundbuch: 'Gebühr für die Eintragung des neuen Eigentümers ins Grundbuch (amtliches Register aller Grundstücke). Üblich sind ca. 0,5 % des Kaufpreises.',
+    broker: 'Provision für den Immobilienmakler. Der Käuferanteil beträgt je nach Region ca. 3–3,6 %. Ohne Makler entfällt diese Gebühr.',
+  };
   bundeslaender = input.required<Bundesland[]>();
   selectedBundesland = input.required<Bundesland>();
   purchasePrice = input.required<number>();

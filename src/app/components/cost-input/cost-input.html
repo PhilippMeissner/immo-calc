@@ -36,9 +36,16 @@
             (change)="onToggleChange(rate.id, $event)"
           />
           {{ rate.label }}
+          @if (tooltips[rate.id]) {
+            <app-info-tooltip [text]="tooltips[rate.id]" />
+          }
         </label>
       } @else {
-        <label [for]="'rate-' + rate.id">{{ rate.label }}</label>
+        <label [for]="'rate-' + rate.id">{{ rate.label }}
+          @if (tooltips[rate.id]) {
+            <app-info-tooltip [text]="tooltips[rate.id]" />
+          }
+        </label>
       }
       <div class="rate-input-wrapper">
         <input

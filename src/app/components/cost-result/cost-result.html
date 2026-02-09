@@ -3,7 +3,7 @@
     <h2>Unmittelbare Kosten</h2>
 
     <div class="hero">
-      <span class="hero-label">Gesamtkosten</span>
+      <span class="hero-label">Gesamtkosten <app-info-tooltip text="Kaufpreis plus alle Nebenkosten. Diesen Betrag müssen Sie insgesamt aufbringen." /></span>
       <span class="hero-value">{{ r.totalPurchasePrice | number:'1.2-2':'de-DE' }} €</span>
     </div>
 
@@ -13,7 +13,7 @@
         <span class="stat-value">{{ r.purchasePrice | number:'1.2-2':'de-DE' }} €</span>
       </div>
       <div class="stat-card highlight">
-        <span class="stat-label">Kaufnebenkosten</span>
+        <span class="stat-label">Kaufnebenkosten <app-info-tooltip text="Zusätzliche Kosten zum Kaufpreis: Steuern, Notar, Grundbuch und ggf. Makler. Sie sind meist aus Eigenkapital zu zahlen." /></span>
         <span class="stat-value">{{ r.totalCosts | number:'1.2-2':'de-DE' }} €</span>
         <span class="stat-sub">{{ costPercentage() | number:'1.2-2':'de-DE' }} % des Kaufpreises</span>
       </div>
