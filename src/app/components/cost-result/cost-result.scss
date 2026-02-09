@@ -44,7 +44,7 @@ h2 {
   padding: var(--spacing);
 
   &.highlight {
-    background: #eaf2f8;
+    background: var(--color-highlight-bg);
   }
 
   .stat-label {
