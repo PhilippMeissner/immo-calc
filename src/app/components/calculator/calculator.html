@@ -35,3 +35,40 @@
     />
   </div>
 </div>
+
+<div class="offers-section">
+  <div class="offers-header">
+    <h2>Kreditangebote vergleichen</h2>
+    <div class="offers-toolbar">
+      @if (loanOffers().length > 0) {
+        <button class="btn btn--secondary" (click)="onExportOffers()">Exportieren</button>
+      }
+      <label class="btn btn--secondary import-label">
+        Importieren
+        <input type="file" accept=".json" class="file-input" (change)="onImportOffers($event)" />
+      </label>
+    </div>
+  </div>
+
+  @if (importError(); as err) {
+    <div class="import-error">{{ err }}</div>
+  }
+
+  <app-loan-offers
+    [offers]="offersWithResults()"
+    [loanAmount]="loanAmount()"
+    (addOffer)="onAddOffer()"
+    (removeOffer)="onRemoveOffer($event)"
+    (updateOffer)="onUpdateOffer($event)"
+  />
+
+  @if (offersWithResults().length >= 2) {
+    <button class="section-toggle" [class.open]="showComparison()" (click)="toggleComparison()">
+      Angebote vergleichen
+    </button>
+
+    @if (showComparison()) {
+      <app-offer-comparison [offers]="offersWithResults()" />
+    }
+  }
+</div>

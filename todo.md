@@ -5,7 +5,7 @@
 
 2. There should be tooltips that either show via an info-icon that is clickable or hoverable for the calculated monthly rate, indicating how the monthly rate was calculated. Also there should be one for "Bundesland" indicating why the selection of the federal state province is required so a user better understands why data was required.
 
-3. There should be a way to save the currently used settings/results and have a possibility to compare different results with each other easier.
+3. ~~There should be a way to save the currently used settings/results and have a possibility to compare different results with each other easier.~~
 
 4. ~~The interest costs and remaining debt should optionally be shown in some sort of table, unraveled by year with remaining debt at the start of the year, how much % goes toward repayment and interest costs respectively as well as how much € was paid each year totally and how much debt remains. The table should also consider the special repayment if it was selected.~~
 

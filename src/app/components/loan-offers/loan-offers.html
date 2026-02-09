@@ -1,0 +1,100 @@
+<div class="offers-grid">
+  @for (item of offers(); track item.offer.id) {
+    <div class="offer-card" [class.editing]="editingId() === item.offer.id" [class.locked]="isFirstOffer(item.offer.id)" [attr.data-offer-id]="item.offer.id">
+      <div class="offer-header">
+        <div class="offer-title">
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input
+              type="text"
+              class="bank-name-input"
+              [value]="item.offer.bankName"
+              (input)="onFieldChange(item.offer, 'bankName', $event)"
+              placeholder="Name der Bank"
+            />
+          } @else {
+            <span class="bank-name">{{ item.offer.bankName || 'Ohne Name' }}</span>
+          }
+        </div>
+        @if (!isFirstOffer(item.offer.id)) {
+          <div class="offer-actions">
+            <button class="btn-icon" (click)="toggleEdit(item.offer.id)" [attr.aria-label]="editingId() === item.offer.id ? 'Fertig' : 'Bearbeiten'">
+              @if (editingId() === item.offer.id) {
+                <span class="icon-check">&#10003;</span>
+              } @else {
+                <span class="icon-edit">&#9998;</span>
+              }
+            </button>
+            <button class="btn-icon btn-icon--danger" (click)="onRemove(item.offer.id)" aria-label="Entfernen">
+              <span class="icon-remove">&times;</span>
+            </button>
+          </div>
+        } @else {
+          <span class="badge-source">aus Finanzierung</span>
+        }
+      </div>
+
+      <div class="offer-body">
+        <div class="field-row">
+          <span class="field-label">Sollzins</span>
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input type="number" class="field-input" step="0.1" min="0" [value]="item.offer.interestRate" (change)="onFieldChange(item.offer, 'interestRate', $event)" />
+            <span class="field-unit">%</span>
+          } @else {
+            <span class="field-value">{{ item.offer.interestRate | number:'1.2-2':'de-DE' }} %</span>
+          }
+        </div>
+        <div class="field-row">
+          <span class="field-label">Tilgung</span>
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input type="number" class="field-input" step="0.1" min="0" [value]="item.offer.repaymentRate" (change)="onFieldChange(item.offer, 'repaymentRate', $event)" />
+            <span class="field-unit">%</span>
+          } @else {
+            <span class="field-value">{{ item.offer.repaymentRate | number:'1.2-2':'de-DE' }} %</span>
+          }
+        </div>
+        <div class="field-row">
+          <span class="field-label">Zinsbindung</span>
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input type="number" class="field-input" step="1" min="1" max="30" [value]="item.offer.fixedPeriodYears" (change)="onFieldChange(item.offer, 'fixedPeriodYears', $event)" />
+            <span class="field-unit">J.</span>
+          } @else {
+            <span class="field-value">{{ item.offer.fixedPeriodYears }} J.</span>
+          }
+        </div>
+        <div class="field-row">
+          <span class="field-label">Sondertilg.</span>
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input type="number" class="field-input" step="1" min="0" max="100" [value]="item.offer.specialRepaymentRate" (change)="onFieldChange(item.offer, 'specialRepaymentRate', $event)" />
+            <span class="field-unit">%</span>
+          } @else {
+            <span class="field-value">{{ item.offer.specialRepaymentRate | number:'1.0-0':'de-DE' }} %</span>
+          }
+        </div>
+        <div class="field-row">
+          <span class="field-label">Aufschlag</span>
+          @if (editingId() === item.offer.id && !isFirstOffer(item.offer.id)) {
+            <input type="number" class="field-input" step="0.05" min="0" [value]="item.offer.specialRepaymentSurcharge" (change)="onFieldChange(item.offer, 'specialRepaymentSurcharge', $event)" />
+            <span class="field-unit">Pp.</span>
+          } @else {
+            <span class="field-value">{{ item.offer.specialRepaymentSurcharge | number:'1.2-2':'de-DE' }} Pp.</span>
+          }
+        </div>
+
+        @if (item.result; as r) {
+          <div class="field-row result-row">
+            <span class="field-label">Rate</span>
+            <span class="field-value">{{ r.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
+          </div>
+          <div class="field-row result-row">
+            <span class="field-label">Restschuld</span>
+            <span class="field-value">{{ r.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>
+
+<button class="btn-add" (click)="onAdd()">
+  <span class="btn-add-icon">+</span> Angebot hinzufügen
+</button>
