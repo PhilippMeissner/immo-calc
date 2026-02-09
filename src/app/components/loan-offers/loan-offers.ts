@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { LoanOffer, MortgageResult } from '../../models/calculator.model';
@@ -14,7 +14,7 @@ export interface OfferWithResult {
   templateUrl: './loan-offers.html',
   styleUrl: './loan-offers.scss',
 })
-export class LoanOffers {
+export class LoanOffers implements AfterViewChecked {
   offers = input.required<OfferWithResult[]>();
   loanAmount = input.required<number>();
 
@@ -23,9 +23,38 @@ export class LoanOffers {
   updateOffer = output<LoanOffer>();
 
   editingId = signal<string | null>(null);
+  private pendingFocusId: string | null = null;
+
+  constructor(private el: ElementRef<HTMLElement>) {}
+
+  ngAfterViewChecked(): void {
+    if (this.pendingFocusId) {
+      const card = this.el.nativeElement.querySelector(`[data-offer-id="${this.pendingFocusId}"]`);
+      const input = card?.querySelector<HTMLInputElement>('.bank-name-input');
+      if (input) {
+        input.focus();
+        input.select();
+        this.pendingFocusId = null;
+      }
+    }
+  }
+
+  isFirstOffer(id: string): boolean {
+    return this.offers()[0]?.offer.id === id;
+  }
 
   onAdd(): void {
     this.addOffer.emit();
+    // After Angular renders the new card, we find and focus the new offer's name input
+    const currentIds = new Set(this.offers().map(o => o.offer.id));
+    // The new offer will be the first one not in currentIds — we schedule focus after render
+    setTimeout(() => {
+      const newOffer = this.offers().find(o => !currentIds.has(o.offer.id));
+      if (newOffer) {
+        this.editingId.set(newOffer.offer.id);
+        this.pendingFocusId = newOffer.offer.id;
+      }
+    });
   }
 
   onRemove(id: string): void {
@@ -36,7 +65,11 @@ export class LoanOffers {
   }
 
   toggleEdit(id: string): void {
-    this.editingId.update(current => current === id ? null : id);
+    const newId = this.editingId() === id ? null : id;
+    this.editingId.set(newId);
+    if (newId) {
+      this.pendingFocusId = newId;
+    }
   }
 
   onFieldChange(offer: LoanOffer, field: keyof LoanOffer, event: Event): void {

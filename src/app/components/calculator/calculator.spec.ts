@@ -55,4 +55,35 @@ describe('Calculator', () => {
 
     expect(result).toBe(250000);
   });
+
+  it('should always include financing offer in offersWithResults', () => {
+    const offers = component.offersWithResults();
+    expect(offers.length).toBe(1);
+    expect(offers[0].offer.id).toBe('financing');
+    expect(offers[0].offer.bankName).toBe('Eigene Berechnung');
+  });
+
+  it('should mirror financing card values in financing offer', () => {
+    component.onInterestRateChange(4.0);
+    component.onRepaymentRateChange(3.0);
+
+    const financing = component.offersWithResults()[0];
+    expect(financing.offer.interestRate).toBe(4.0);
+    expect(financing.offer.repaymentRate).toBe(3.0);
+  });
+
+  it('should add offer with indexed name', () => {
+    component.onAddOffer();
+    const offers = component.loanOffers();
+    expect(offers.length).toBe(1);
+    expect(offers[0].bankName).toBe('2. Angebot');
+  });
+
+  it('should increment offer name index', () => {
+    component.onAddOffer();
+    component.onAddOffer();
+    const offers = component.loanOffers();
+    expect(offers[0].bankName).toBe('2. Angebot');
+    expect(offers[1].bankName).toBe('3. Angebot');
+  });
 });

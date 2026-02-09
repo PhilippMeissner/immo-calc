@@ -130,9 +130,22 @@ export class Calculator {
   // Loan offers
   readonly loanOffers = signal<LoanOffer[]>([]);
 
+  readonly financingOffer = computed<OfferWithResult>(() => ({
+    offer: {
+      id: 'financing',
+      bankName: 'Eigene Berechnung',
+      interestRate: this.interestRate(),
+      repaymentRate: this.repaymentRate(),
+      fixedPeriodYears: this.fixedPeriodYears(),
+      specialRepaymentRate: this.specialRepaymentRate(),
+      specialRepaymentSurcharge: this.specialRepaymentSurcharge(),
+    },
+    result: this.mortgageResult(),
+  }));
+
   readonly offersWithResults = computed<OfferWithResult[]>(() => {
     const loan = this.loanAmount();
-    return this.loanOffers().map(offer => ({
+    const additional = this.loanOffers().map(offer => ({
       offer,
       result: loan > 0
         ? this.mortgageService.calculate(
@@ -145,13 +158,17 @@ export class Calculator {
           )
         : null,
     }));
+    return [this.financingOffer(), ...additional];
   });
 
   showComparison = signal(false);
   importError = signal<string | null>(null);
 
   onAddOffer(): void {
-    const offer = this.loanOfferService.createOffer();
+    const count = this.loanOffers().length;
+    const offer = this.loanOfferService.createOffer({
+      bankName: `${count + 2}. Angebot`,
+    });
     this.loanOffers.update(offers => [...offers, offer]);
   }
 

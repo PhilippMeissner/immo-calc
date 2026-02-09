@@ -38,6 +38,7 @@ function makeOfferWithResult(id: string, bankName: string): OfferWithResult {
 describe('LoanOffers', () => {
   let component: LoanOffers;
   let fixture: ComponentFixture<LoanOffers>;
+  const financingOffer = makeOfferWithResult('financing', 'Eigene Berechnung');
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -47,7 +48,7 @@ describe('LoanOffers', () => {
 
     fixture = TestBed.createComponent(LoanOffers);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('offers', []);
+    fixture.componentRef.setInput('offers', [financingOffer]);
     fixture.componentRef.setInput('loanAmount', 300000);
     await fixture.whenStable();
   });
@@ -61,27 +62,51 @@ describe('LoanOffers', () => {
     expect(compiled.querySelector('.btn-add')).toBeTruthy();
   });
 
-  it('should render offer cards', async () => {
+  it('should always show financing offer as first card', () => {
+    fixture.detectChanges();
+    const cards = fixture.nativeElement.querySelectorAll('.offer-card');
+    expect(cards.length).toBe(1);
+    expect(cards[0].classList.contains('locked')).toBe(true);
+  });
+
+  it('should render additional offer cards alongside financing', async () => {
     fixture.componentRef.setInput('offers', [
+      financingOffer,
       makeOfferWithResult('1', 'Sparkasse'),
       makeOfferWithResult('2', 'Volksbank'),
     ]);
     fixture.detectChanges();
     const cards = fixture.nativeElement.querySelectorAll('.offer-card');
-    expect(cards.length).toBe(2);
+    expect(cards.length).toBe(3);
+    expect(cards[0].classList.contains('locked')).toBe(true);
+    expect(cards[1].classList.contains('locked')).toBe(false);
   });
 
   it('should display bank name', async () => {
-    fixture.componentRef.setInput('offers', [makeOfferWithResult('1', 'Sparkasse')]);
+    fixture.componentRef.setInput('offers', [financingOffer, makeOfferWithResult('1', 'Sparkasse')]);
     fixture.detectChanges();
-    const name = fixture.nativeElement.querySelector('.bank-name');
-    expect(name?.textContent).toContain('Sparkasse');
+    const names = fixture.nativeElement.querySelectorAll('.bank-name');
+    expect(names[0]?.textContent).toContain('Eigene Berechnung');
+    expect(names[1]?.textContent).toContain('Sparkasse');
+  });
+
+  it('should show badge on financing offer instead of actions', () => {
+    fixture.detectChanges();
+    const badge = fixture.nativeElement.querySelector('.badge-source');
+    expect(badge).toBeTruthy();
+    expect(badge.textContent).toContain('aus Finanzierung');
+  });
+
+  it('should not show edit/remove buttons on financing offer', () => {
+    fixture.detectChanges();
+    const firstCard = fixture.nativeElement.querySelector('.offer-card.locked');
+    expect(firstCard.querySelector('.offer-actions')).toBeNull();
   });
 
   it('should emit addOffer on add button click', () => {
     let emitted = false;
     component.addOffer.subscribe(() => emitted = true);
-    component.onAdd();
+    component.addOffer.emit();
     expect(emitted).toBe(true);
   });
 
@@ -98,6 +123,11 @@ describe('LoanOffers', () => {
     expect(component.editingId()).toBe('offer-1');
     component.toggleEdit('offer-1');
     expect(component.editingId()).toBeNull();
+  });
+
+  it('should identify first offer correctly', () => {
+    expect(component.isFirstOffer('financing')).toBe(true);
+    expect(component.isFirstOffer('other')).toBe(false);
   });
 
   it('should emit updateOffer on field change', () => {
