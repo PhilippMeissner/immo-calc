@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { LOCALE_ID } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
 import { App } from './app';
@@ -10,7 +11,10 @@ describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [{ provide: LOCALE_ID, useValue: 'de-DE' }],
+      providers: [
+        provideRouter([]),
+        { provide: LOCALE_ID, useValue: 'de-DE' },
+      ],
     }).compileComponents();
   });
 
