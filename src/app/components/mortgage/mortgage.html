@@ -38,7 +38,7 @@
 
     <div class="form-row">
       <div class="form-group">
-        <label for="interestRate">Sollzins (%)</label>
+        <label for="interestRate">Sollzins (%) <app-info-tooltip text="Der Zinssatz, den die Bank für das Darlehen berechnet. Je niedriger, desto günstiger der Kredit." /></label>
         <input
           id="interestRate"
           type="number"
@@ -49,7 +49,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="repaymentRate">Tilgung (%)</label>
+        <label for="repaymentRate">Tilgung (%) <app-info-tooltip text="Anteil der jährlichen Rückzahlung des Darlehens. Höhere Tilgung = schneller schuldenfrei, aber höhere monatliche Rate." /></label>
         <input
           id="repaymentRate"
           type="number"
@@ -60,7 +60,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="fixedPeriod">Zinsbindung (Jahre)</label>
+        <label for="fixedPeriod">Zinsbindung (Jahre) <app-info-tooltip text="Zeitraum, in dem der Zinssatz festgeschrieben ist. Danach wird neu verhandelt – zu dann geltenden Marktzinsen." /></label>
         <input
           id="fixedPeriod"
           type="number"
@@ -75,7 +75,7 @@
 
     <div class="form-row form-row--two">
       <div class="form-group">
-        <label for="specialRepaymentRate">Sondertilgung (% p.a.)</label>
+        <label for="specialRepaymentRate">Sondertilgung (% p.a.) <app-info-tooltip text="Jährliche Extrazahlung zusätzlich zur regulären Rate. Reduziert die Restschuld und spart langfristig Zinsen." /></label>
         <input
           id="specialRepaymentRate"
           type="number"
@@ -87,7 +87,7 @@
         />
       </div>
       <div class="form-group">
-        <label for="specialRepaymentSurcharge">Zinsaufschlag Sondertilgung (Pp.)</label>
+        <label for="specialRepaymentSurcharge">Zinsaufschlag Sondertilgung (Pp.) <app-info-tooltip text="Manche Banken verlangen einen Zinsaufschlag, wenn Sie sich das Recht auf Sondertilgungen sichern wollen." /></label>
         <input
           id="specialRepaymentSurcharge"
           type="number"
@@ -112,7 +112,7 @@
       <span class="value">{{ purchasePrice() | number:'1.2-2':'de-DE' }} €</span>
     </div>
     <div class="result-item">
-      <span class="label">Darlehensbetrag</span>
+      <span class="label">Darlehensbetrag <app-info-tooltip text="Gesamtkosten minus Eigenkapital. Diesen Betrag leihen Sie sich von der Bank." /></span>
       <span class="value">{{ loanAmount() | number:'1.2-2':'de-DE' }} €</span>
     </div>
     <div class="result-item">
@@ -125,7 +125,7 @@
     @if (m.monthlyPayment > 0) {
       <div class="results">
         <div class="result-item">
-          <span class="label">Monatliche Rate</span>
+          <span class="label">Monatliche Rate <app-info-tooltip text="Fester monatlicher Betrag an die Bank, bestehend aus Zinsen und Tilgung. Bleibt während der Zinsbindung gleich." /></span>
           <span class="value">{{ m.monthlyPayment | number:'1.2-2':'de-DE' }} €</span>
         </div>
         <div class="result-item">
@@ -139,7 +139,7 @@
           </div>
         }
         <div class="result-item">
-          <span class="label">Restschuld nach {{ fixedPeriodYears() }} Jahren</span>
+          <span class="label">Restschuld nach {{ fixedPeriodYears() }} Jahren <app-info-tooltip text="Offener Betrag nach Ende der Zinsbindung. Muss über eine Anschlussfinanzierung (neuer Kredit) weiter abbezahlt werden." /></span>
           <span class="value">{{ m.remainingDebt | number:'1.2-2':'de-DE' }} €</span>
         </div>
         @if (mortgageResultWithout(); as mw) {
