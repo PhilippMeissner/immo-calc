@@ -44,15 +44,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
+  line-height: 1.625rem; // match input height
 }
 
 .bank-name-input {
   width: 100%;
-  padding: 0.25rem 0.375rem;
+  padding: 0.1875rem 0.375rem;
   border: 1px solid var(--color-input-border);
   border-radius: var(--radius-sm);
   font-size: 0.875rem;
   font-weight: 600;
+  line-height: 1.25rem;
 
   &:focus {
     outline: none;
@@ -107,67 +109,73 @@
   font-weight: 700;
 }
 
-.offer-form {
-  margin-top: var(--spacing-sm);
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-sm);
-}
-
-.form-group {
+// Unified field rows — same structure for both view and edit mode
+.offer-body {
   display: flex;
   flex-direction: column;
+}
 
-  label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 500;
-    margin-bottom: 0.125rem;
-    color: var(--color-text-light);
-  }
+.field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-sm);
+  min-height: 1.75rem;
 
-  input {
-    width: 100%;
-    padding: 0.375rem 0.5rem;
-    border: 1px solid var(--color-input-border);
-    border-radius: var(--radius-sm);
-    background: var(--color-input-bg);
-    font-size: 0.8125rem;
-    transition: border-color 0.2s;
+  & + .result-row {
+    margin-top: 0.125rem;
+    padding-top: 0.125rem;
 
-    &:focus {
-      outline: none;
-      border-color: var(--color-input-focus);
-      box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.15);
+    &:first-of-type {
+      border-top: 1px solid var(--color-border);
+      margin-top: 0.25rem;
+      padding-top: 0.25rem;
     }
   }
 }
 
-.offer-summary {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.125rem var(--spacing-sm);
+.field-label {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  flex-shrink: 0;
+  min-width: 5rem;
 }
 
-.summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  padding: 0.125rem 0;
+.field-value {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
 
-  .summary-label {
-    font-size: 0.75rem;
-    color: var(--color-text-light);
-  }
+.field-input {
+  width: 4.5rem;
+  padding: 0.125rem 0.25rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-input-bg);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  transition: border-color 0.2s;
 
-  .summary-value {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
+  &:focus {
+    outline: none;
+    border-color: var(--color-input-focus);
+    box-shadow: 0 0 0 2px rgba(41, 128, 185, 0.15);
   }
+}
+
+.field-unit {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  width: 1.5rem;
+  flex-shrink: 0;
+}
+
+.result-row .field-value {
+  color: var(--color-primary);
 }
 
 .btn-add {
@@ -199,16 +207,6 @@
 
 @media (max-width: 900px) {
   .offers-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 600px) {
-  .form-grid {
     grid-template-columns: 1fr;
   }
 }

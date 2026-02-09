@@ -130,6 +130,36 @@ describe('LoanOffers', () => {
     expect(component.isFirstOffer('other')).toBe(false);
   });
 
+  it('should show same field rows in view and edit mode', () => {
+    fixture.componentRef.setInput('offers', [
+      financingOffer,
+      makeOfferWithResult('1', 'Sparkasse'),
+    ]);
+    fixture.detectChanges();
+
+    const card = fixture.nativeElement.querySelectorAll('.offer-card')[1];
+    const viewRows = card.querySelectorAll('.field-row').length;
+
+    component.toggleEdit('1');
+    fixture.detectChanges();
+
+    const editRows = card.querySelectorAll('.field-row').length;
+    expect(editRows).toBe(viewRows);
+  });
+
+  it('should show inline inputs in edit mode', () => {
+    fixture.componentRef.setInput('offers', [
+      financingOffer,
+      makeOfferWithResult('1', 'Sparkasse'),
+    ]);
+    component.toggleEdit('1');
+    fixture.detectChanges();
+
+    const card = fixture.nativeElement.querySelectorAll('.offer-card')[1];
+    const inputs = card.querySelectorAll('.field-input');
+    expect(inputs.length).toBe(5);
+  });
+
   it('should emit updateOffer on field change', () => {
     const offer: LoanOffer = {
       id: '1',
