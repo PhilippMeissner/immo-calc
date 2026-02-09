@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { Calculator } from './components/calculator/calculator';
+import { RouterOutlet, RouterLink } from '@angular/router';
 import { ThemeToggle } from './components/theme-toggle/theme-toggle';
 
 @Component({
   selector: 'app-root',
-  imports: [Calculator, ThemeToggle],
+  imports: [RouterOutlet, RouterLink, ThemeToggle],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })

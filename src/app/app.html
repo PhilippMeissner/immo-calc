@@ -1,18 +1,23 @@
 <header>
   <div class="header-row">
-    <div class="header-title">
+    <a routerLink="/" class="header-link">
       <img src="favicon.svg" alt="" class="logo" aria-hidden="true">
       <h1>Immobilien- & Kreditkostenrechner</h1>
-    </div>
+    </a>
     <app-theme-toggle />
   </div>
   <p class="subtitle">Tatsächliche Kosten des Immobilienkaufs auf Kredit schnell & einfach berechnet</p>
 </header>
 
 <main>
-  <app-calculator />
+  <router-outlet />
 </main>
 
 <footer>
   <p>Die Berechnung dient als Orientierung. Alle Angaben ohne Gewähr.</p>
+  <nav class="footer-nav">
+    <a routerLink="/impressum">Impressum</a>
+    <span class="separator">|</span>
+    <a routerLink="/datenschutz">Datenschutz</a>
+  </nav>
 </footer>

@@ -17,11 +17,6 @@ header {
     margin-bottom: var(--spacing-sm);
   }
 
-  .header-title {
-    display: inline-flex;
-    align-items: center;
-  }
-
   h1 {
     font-size: 1.75rem;
     font-weight: 700;
@@ -55,4 +50,30 @@ footer {
     font-size: 0.8125rem;
     color: var(--color-text-light);
   }
+
+  .footer-nav {
+    margin-top: var(--spacing-sm);
+    font-size: 0.8125rem;
+
+    a {
+      color: var(--color-primary-light);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .separator {
+      margin: 0 var(--spacing-sm);
+      color: var(--color-text-light);
+    }
+  }
+}
+
+header .header-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
 }
