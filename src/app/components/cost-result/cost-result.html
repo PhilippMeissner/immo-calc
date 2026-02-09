@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <button class="section-toggle" [class.open]="showTable()" (click)="toggleTable()">
+    <button class="section-toggle" [class.open]="showTable()" [attr.aria-expanded]="showTable()" (click)="toggleTable()">
       Kostenaufschlüsselung
     </button>
 

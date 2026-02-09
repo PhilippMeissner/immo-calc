@@ -48,6 +48,7 @@
           min="0"
           [value]="rate.currentRate"
           [disabled]="!rate.isEnabled"
+          [attr.aria-label]="rate.label + ' (%)'"
           (change)="onRateChange(rate.id, $event)"
         />
         <span class="unit">%</span>
